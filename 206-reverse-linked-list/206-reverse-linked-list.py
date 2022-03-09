@@ -16,3 +16,4 @@ class Solution:
             head = temp
         
         return prev
+            
