@@ -18,12 +18,12 @@ class Solution(object):
         queue = collections.deque([root])
         
         size = 0
+        
         while queue:
             
             size += 1
-
+            
             for i in range(len(queue)):
-                
                 node = queue.popleft()
                 
                 if not node.left and not node.right:
@@ -36,5 +36,3 @@ class Solution(object):
                     queue.append(node.right)
         
         return size
-                
-                
