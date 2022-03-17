@@ -1,27 +1,22 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         
-        if not s:
-            return 0
+        char_frequency = {}
+        start = 0
+        max_len = 0
         
-        seen = {}
-        left, right = 0, 0
-        maxSub, currSub = 1, 1
-        seen[s[left]] = True
-        
-        while right < len(s) - 1:
+        for end in range(0, len(s)):
             
-            right += 1
-            if s[right] in seen:
-                left += 1
-                seen = {}
-                seen[s[left]] = True
-                right = left
-                currSub = 1
-            else:
-                seen[s[right]] = True
-                currSub += 1
+            right = s[end]
             
-            maxSub = max(maxSub, currSub)
+            if right in char_frequency:
+                # move start to one after the index of where that repeated letter first appeared 
+                start = max(start, char_frequency[right] + 1)
+                
+            # store the index of where we last saw the character
+            char_frequency[right] = end
+                
+            #keep track of max length
+            max_len = max(max_len, end - start + 1)
         
-        return maxSub
+        return max_len
