@@ -4,17 +4,15 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        pointer, curr = 0, 1
+        slow, fast = 0, 0
         
-        while curr < len(nums):
+        while fast < len(nums):
+            if nums[fast] != nums[slow]:
+                nums[slow + 1] = nums[fast]
+                slow += 1
             
-            if nums[curr] != nums[pointer]:
-                pointer += 1
-                nums[pointer] = nums[curr]
-            
-            curr += 1
-       
-        return pointer+1
-                
+            fast += 1
+    
+        return slow + 1
             
             
