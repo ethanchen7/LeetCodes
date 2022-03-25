@@ -5,18 +5,17 @@ class Solution:
         start = 0
         max_len = 0
         
-        for end in range(0, len(s)):
+        for end in range(len(s)):
+            if s[end] not in char_frequency:
+                char_frequency[s[end]] = 0
+            char_frequency[s[end]] += 1
             
-            right = s[end]
+            while char_frequency[s[end]] > 1:
+                left = s[start]
+                char_frequency[left] -= 1
+                start += 1
             
-            if right in char_frequency:
-                # move start to one after the index of where that repeated letter first appeared 
-                start = max(start, char_frequency[right] + 1)
-                
-            # store the index of where we last saw the character
-            char_frequency[right] = end
-                
-            #keep track of max length
             max_len = max(max_len, end - start + 1)
         
         return max_len
+            
