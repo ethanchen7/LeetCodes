@@ -1,17 +1,23 @@
-class Solution:
-    def longestOnes(self, nums: List[int], k: int) -> int:
-        
-        
-        start, max_len, max_ones_repeat = 0, 0, 0
+class Solution(object):
+    def longestOnes(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        max_len = 0
+        start = 0
+        ones_frequency = 0
         
         for end in range(len(nums)):
-            right = nums[end]
-            if right == 1:
-                max_ones_repeat += 1
             
-            if (end - start + 1 - max_ones_repeat) > k:
-                if nums[start] == 1:
-                    max_ones_repeat -= 1
+            if nums[end] == 1:
+                ones_frequency += 1
+            
+            if (end - start + 1 - ones_frequency > k):
+                left = nums[start]
+                if left == 1: 
+                    ones_frequency -= 1
                 start += 1
             
             max_len = max(max_len, end - start + 1)
