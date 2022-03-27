@@ -1,44 +1,38 @@
-class Solution(object):
-    def fourSum(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
         nums.sort()
-        quadruplets = []
-        for i in range(0, len(nums)-3):
-        # skip same element to avoid duplicate quadruplets
+        result = []
+        
+        for i in range(len(nums) - 3):
             if i > 0 and nums[i] == nums[i - 1]:
                 continue
-            for j in range(i + 1, len(nums)-2):
-            # skip same element to avoid duplicate quadruplets
+            for j in range(i + 1, len(nums) - 2):
                 if j > i + 1 and nums[j] == nums[j - 1]:
                     continue
-                self.search_pairs(nums, target, i, j, quadruplets)
-        return quadruplets
-
-
-    def search_pairs(self, nums, target_sum, first, second, quadruplets):
-        left = second + 1
-        right = len(nums) - 1
-        while (left < right):
-            quad_sum = nums[first] + nums[second] + nums[left] + nums[right]
-            
-            if quad_sum == target_sum:  # found the quadruplet
-                quadruplets.append(
-                [nums[first], nums[second], nums[left], nums[right]])
-                left += 1
-                right -= 1
-                while (left < right and nums[left] == nums[left - 1]):
-                    left += 1  # skip same element to avoid duplicate quadruplets
-                while (left < right and nums[right] == nums[right + 1]):
-                    right -= 1  # skip same element to avoid duplicate quadruplets
-                    
-            elif quad_sum < target_sum:
-                left += 1  # we need a pair with a bigger sum
-            else:
-                right -= 1  # we need a pair with a smaller sum
-                
-
+                self.search(nums, result, i, j, target)
         
+        return result
+                
+    def search(self, nums, result, i, j, target):
+        low = j + 1
+        high = len(nums) - 1
+        
+        while low < high:
+            current_sum = nums[i] + nums[j] + nums[low] + nums[high]
+            if current_sum == target:
+                result.append([nums[i], nums[j], nums[low], nums[high]])
+                low += 1
+                high -= 1
+                
+                while low < high and nums[low] == nums[low - 1]:
+                    low += 1
+                
+                while low < high and nums[high] == nums[high + 1]:
+                    high -= 1
+            
+            elif current_sum < target:
+                low += 1
+            
+            else:
+                high -= 1
+            
