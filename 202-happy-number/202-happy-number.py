@@ -1,21 +1,23 @@
-class Solution:
-    def isHappy(self, n: int) -> bool:
-        slow = n
-        fast = n
+class Solution(object):
+    def isHappy(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        slow, fast = n, n
         
         while True:
-            slow = self.find_square_sum(slow)
-            fast = self.find_square_sum(self.find_square_sum(fast))
+            slow = self.find_squares(slow)
+            fast = self.find_squares(self.find_squares(fast))
             
             if slow == fast:
                 break
         
         return slow == 1
+            
     
-    
-    def find_square_sum(self, num):
+    def find_squares(self, num):
         _sum = 0
-        
         while num > 0:
             digit = num % 10
             _sum += digit * digit
