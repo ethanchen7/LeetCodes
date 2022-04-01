@@ -1,17 +1,20 @@
 # Definition for singly-linked list.
-# class ListNode:
+# class ListNode(object):
 #     def __init__(self, x):
 #         self.val = x
 #         self.next = None
 
-class Solution:
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        
+class Solution(object):
+    def detectCycle(self, head):
+        """
+        :type head: ListNode
+        :rtype: ListNode
+        """
         if not head:
             return None
         
-        # first, find that the cycle exists
-        slow, fast = head, head
+        slow = head
+        fast = head
         
         while fast and fast.next:
             slow = slow.next
@@ -19,11 +22,12 @@ class Solution:
             
             if slow == fast:
                 break
-        
-        slow2 = head
+                
+        pointer = head
         while slow.next:
-            if slow == slow2: return slow
+            if pointer == slow:
+                return slow
+            pointer = pointer.next
             slow = slow.next
-            slow2 = slow2.next
-        
+            
         return None
