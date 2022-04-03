@@ -4,14 +4,22 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        n = len(nums)
         
-        expected_sum = 0
-        for i in range(n + 1):
-            expected_sum += i
+        i = 0
+        while i < len(nums):
+            
+            j = nums[i] # the correct index position
+            
+            # check for outer bound because we can't swap when index is out of range
+            if j < len(nums) and nums[i] != nums[j]:
+                nums[i], nums[j] = nums[j], nums[i]
+            
+            else:
+                i += 1
         
-        current_sum = 0
-        for n in nums:
-            current_sum += n
         
-        return expected_sum - current_sum
+        for n in range(len(nums)):
+            if nums[n] != n:
+                return n
+        
+        return len(nums)
