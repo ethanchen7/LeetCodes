@@ -7,20 +7,21 @@ class Solution(object):
         slow, fast = n, n
         
         while True:
-            slow = self.find_squares(slow)
-            fast = self.find_squares(self.find_squares(fast))
-            
+            slow = self.find_square(slow)
+            fast = self.find_square(self.find_square(fast))
+        
             if slow == fast:
                 break
-        
-        return slow == 1
             
+        return slow == 1
+        
     
-    def find_squares(self, num):
-        _sum = 0
+    def find_square(self, num):
+        square = 0
+        
         while num > 0:
             digit = num % 10
-            _sum += digit * digit
+            square += (digit * digit)
             num //= 10
         
-        return _sum
+        return square
