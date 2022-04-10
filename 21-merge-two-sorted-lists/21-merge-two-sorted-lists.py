@@ -4,37 +4,37 @@
 #         self.val = val
 #         self.next = next
 class Solution(object):
-    def mergeTwoLists(self, l1, l2):
+    def mergeTwoLists(self, list1, list2):
         """
-        :type l1: ListNode
-        :type l2: ListNode
-        :rtype: ListNode
+        :type list1: Optional[ListNode]
+        :type list2: Optional[ListNode]
+        :rtype: Optional[ListNode]
         """
+        
         dummy = ListNode()
         tail = dummy
         
-        while l1 and l2:
+        while list1 and list2:
             
-            if l1.val <= l2.val:
-                tail.next = l1
-                tail = l1
-                l1 = l1.next
+            if list1.val < list2.val:
+                tail.next = list1
+                tail = list1
+                list1 = list1.next
             
             else:
-                tail.next = l2
-                tail = l2
-                l2 = l2.next
+                tail.next = list2
+                tail = list2
+                list2 = list2.next
         
-        while l1:
-            tail.next = l1
-            tail = l1
-            l1 = l1.next
-            
-        while l2:
-            tail.next = l2
-            tail = l2
-            l2 = l2.next
+        while list1:
+            tail.next = list1
+            tail = list1
+            list1 = list1.next
+        
+        while list2:
+            tail.next = list2
+            tail = list2
+            list2 = list2.next
         
         return dummy.next
-    
-    
+            
