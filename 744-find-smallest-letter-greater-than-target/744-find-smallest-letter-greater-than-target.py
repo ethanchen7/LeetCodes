@@ -1,32 +1,21 @@
-class Solution(object):
-    def nextGreatestLetter(self, letters, target):
-        """
-        :type letters: List[str]
-        :type target: str
-        :rtype: str
-        """
+class Solution:
+    def nextGreatestLetter(self, letters: List[str], target: str) -> str:
         
+        low = 0
+        high = len(letters) - 1
         
-        left = 0
-        right = len(letters) - 1
-        
-        # edge case if the target is less than the first letter
-        # or if the target is greater than or equal to our last letter
         if ord(target) < ord(letters[0]) or ord(target) >= ord(letters[-1]):
             return letters[0]
-
         
-        while left <= right:
+        while low <= high:
             
-            mid = (left + right) // 2
-            
-            if ord(letters[left]) > ord(target):
-                return letters[left]
+            mid = (low + high) // 2
             
             if ord(letters[mid]) <= ord(target):
-                left = mid + 1
+                low = mid + 1
             
             if ord(letters[mid]) > ord(target):
-                right = mid - 1
+                high = mid - 1
+                
         
-        return letters[left]
+        return letters[low]
