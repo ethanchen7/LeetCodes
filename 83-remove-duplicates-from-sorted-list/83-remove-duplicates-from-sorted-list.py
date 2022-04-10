@@ -7,13 +7,21 @@ class Solution:
     def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         
         current = head
+        pointer = current
         
-        while current:
+        if not head:
+            return head
+        
+        while pointer.next:
             
-            while current.next and current.val == current.next.val:
-                current.next = current.next.next
+            pointer = pointer.next
             
-            current = current.next
+            if pointer.val != current.val:
+                current.next = pointer
+                current = current.next
+            
+            if not pointer.next:
+                current.next = None
         
         return head
         
