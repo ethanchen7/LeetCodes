@@ -10,31 +10,23 @@ class Solution(object):
         :rtype: bool
         """
         
-        # slow and fast, get to the middle
-        slow = head
-        fast = head
+        slow, fast = head, head
         
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-            
         
-        # slow is at the middle
         prev = None
         while slow:
-            
             temp = slow.next
             slow.next = prev
             prev = slow
             slow = temp
-            
-        while prev and head:
-            
-            if prev.val != head.val:
+        
+        while prev:
+            if head.val != prev.val:
                 return False
-            
-            prev = prev.next
             head = head.next
+            prev = prev.next
         
         return True
-       
