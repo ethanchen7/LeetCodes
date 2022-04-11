@@ -10,15 +10,19 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
+        
         output = []
         
-        def dfs(root):
-            if not root:
-                return None
+        if not root:
+            return output
+        
+        def dfs(node):
             
-            output.append(root.val)
-            dfs(root.left)
-            dfs(root.right)
+            if not node: return
+            
+            output.append(node.val)
+            dfs(node.left)
+            dfs(node.right)
         
         dfs(root)
         return output
