@@ -1,28 +1,33 @@
 # Definition for a binary tree node.
-# class TreeNode:
+# class TreeNode(object):
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution:
-    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+class Solution(object):
+    def pathSum(self, root, targetSum):
+        """
+        :type root: TreeNode
+        :type targetSum: int
+        :rtype: List[List[int]]
+        """
+        result = []
+        self.dfs(root, [], 0, targetSum, result)
+        return result
         
-        allPaths = []
+    def dfs(self, node, currPath, localSum, targetSum, result):
         
-        def dfs(node, currPath, currSum):
-            
-            currSum += node.val
-            currPath = currPath + [node.val]
-            
-            if node.left:
-                dfs(node.left, currPath, currSum)
-            
-            if node.right:
-                dfs(node.right, currPath, currSum)
-            
-            if not node.left and not node.right and currSum == targetSum:
-                allPaths.append(currPath)
+        if not node:
+            return
         
-        if not root: return allPaths
-        dfs(root, [], 0)
-        return allPaths
+        currPath = currPath + [node.val]
+        localSum += node.val
+        
+        if not node.left and not node.right and localSum == targetSum:
+            result.append(currPath)
+        
+        self.dfs(node.left, currPath, localSum, targetSum, result)
+        self.dfs(node.right, currPath, localSum, targetSum, result)
+        
+        
+        
