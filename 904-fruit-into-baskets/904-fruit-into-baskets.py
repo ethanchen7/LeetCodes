@@ -1,27 +1,26 @@
-class Solution(object):
-    def totalFruit(self, fruits):
-        """
-        :type fruits: List[int]
-        :rtype: int
-        """
-        char_frequency = {}
+class Solution:
+    def totalFruit(self, fruits: List[int]) -> int:
+        
+        # we can only have two of a kind of a fruit at all times
+        
+        type_frequency = {}
         start = 0
-        max_length = 0
+        max_len = 0
         
         for end in range(len(fruits)):
-            if fruits[end] not in char_frequency:
-                char_frequency[fruits[end]] = 0
-            char_frequency[fruits[end]] += 1
+            right = fruits[end]
+            if right not in type_frequency:
+                type_frequency[right] = 0
+            type_frequency[right] += 1
             
-            while len(char_frequency) > 2:
+            while len(type_frequency) > 2:
                 left = fruits[start]
-                char_frequency[left] -= 1
-                if char_frequency[left] == 0:
-                    del char_frequency[left]
+                type_frequency[left] -= 1
+                if type_frequency[left] == 0:
+                    del type_frequency[left]
                 start += 1
             
-            max_length = max(max_length, end - start + 1)
+            curr_len = end - start + 1
+            max_len = max(max_len, curr_len)
         
-        return max_length
-             
-            
+        return max_len
