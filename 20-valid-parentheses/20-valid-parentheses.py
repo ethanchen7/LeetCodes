@@ -2,26 +2,26 @@ class Solution:
     def isValid(self, s: str) -> bool:
         
         paren = {
-            ")":"(",
-            "]":"[",
-            "}":"{",
+            ')':'(',
+            '}':'{',
+            ']':'['
         }
         
-        stack = []
+        if len(s) < 2:
+            return False
         
-        for char in s:
-            
-            if char in paren:
+        stack = []
+        for p in s:
+            if p in paren:
                 if stack:
-                    compare = stack.pop()
-                    if compare != paren[char]:
-                        return False
+                    char = stack.pop()
                 else:
                     return False
+                if paren[p] != char:
+                    return False
             else:
-                stack.append(char)
+                stack.append(p)
         
         if stack:
             return False
         return True
-        
