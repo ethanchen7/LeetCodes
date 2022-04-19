@@ -1,21 +1,22 @@
-class Solution:
-    def longestCommonPrefix(self, strs: List[str]) -> str:
+class Solution(object):
+    def longestCommonPrefix(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
         
-        prefix = strs[0]
-        preLen = len(prefix)
+        prefix = strs[0] #flower
+        prefixLen = len(prefix)
         
         for i in range(1, len(strs)):
-           
-            while strs[i][0:preLen] != prefix:   
-                preLen -= 1
-                prefix = prefix[0:preLen]
+            
+            while strs[i][0:prefixLen] != prefix:
+                prefixLen -= 1
+                prefix = prefix[0:prefixLen]
                 
-                if preLen == 0:
+                if prefixLen == 0:
                     return ""
-
+            
         return prefix
             
-        
-        
-        
-        
+            
