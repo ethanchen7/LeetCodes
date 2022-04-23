@@ -1,18 +1,15 @@
-class Solution(object):
-    def removeDuplicates(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
-        slow, fast = 0, 0
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
         
-        while fast < len(nums):
-            if nums[fast] != nums[slow]:
-                nums[slow + 1] = nums[fast]
-                slow += 1
+        currPosition, runner = 0, 0
+        
+        while runner < len(nums):
             
-            fast += 1
+            if nums[runner] != nums[currPosition]:
+                currPosition += 1
+                nums[currPosition] = nums[runner]
+                     
+            runner += 1
+        
+        return currPosition + 1
     
-        return slow + 1
-            
-            
