@@ -1,22 +1,17 @@
-class Solution(object):
-    def twoSum(self, numbers, target):
-        """
-        :type numbers: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        low = 0
-        high = len(numbers) - 1
+class Solution:
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
         
-        while low < high:
+        left, right = 0, len(numbers) - 1
+        
+        while left < right:
             
-            current_sum = numbers[low] + numbers[high]
+            curr_sum = numbers[left] + numbers[right]
             
-            if current_sum < target:
-                low += 1
+            if curr_sum == target:
+                return [left + 1, right + 1]
             
-            elif current_sum > target:
-                high -= 1
+            elif curr_sum > target:
+                right -= 1
             
             else:
-                return [low + 1, high + 1]
+                left += 1
