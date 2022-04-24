@@ -7,31 +7,33 @@ class Solution(object):
         :type n: int
         :rtype: None Do not return anything, modify nums1 in-place instead.
         """
+        M = m - 1
+        N = n - 1
         
-        k = (m + n) - 1
-        
-        i = m - 1
-        j = n - 1
-        
-        while i >= 0 and j >= 0:
+        end = len(nums1) - 1
+        while M >= 0 and N >= 0:
             
-            if nums1[i] > nums2[j]:
-                nums1[k] = nums1[i]
-                i -= 1
+            if nums1[M] > nums2[N]:
+                nums1[end] = nums1[M]
+                M -= 1
+            
             else:
-                nums1[k] = nums2[j]
-                j -= 1
+                
+                nums1[end] = nums2[N]
+                N -= 1
+                
+            end -= 1
         
-            k -= 1
         
-        while i >= 0:
-            nums1[k] = nums1[i]
-            i -= 1
-            k -= 1
+        while M >= 0:
+            nums1[end] = nums1[M]
+            M -= 1
+            end -= 1
         
-        while j >= 0:
-            nums1[k] = nums2[j]
-            j -= 1
-            k -= 1
+        while N >= 0:
+            nums1[end] = nums2[N]
+            N -= 1
+            end -= 1
         
         return nums1
+            
