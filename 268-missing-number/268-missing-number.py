@@ -1,25 +1,13 @@
-class Solution(object):
-    def missingNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
         
-        i = 0
-        while i < len(nums):
-            
-            j = nums[i] # the correct index position
-            
-            # check for outer bound because we can't swap when index is out of range
-            if j < len(nums) and nums[i] != nums[j]:
-                nums[i], nums[j] = nums[j], nums[i]
-            
-            else:
-                i += 1
+        nums_len = len(nums)
+        expected_sum = 0
+        for n in range(nums_len + 1):
+            expected_sum += n
         
+        actual_sum = 0
+        for i in nums:
+            actual_sum += i
         
-        for n in range(len(nums)):
-            if nums[n] != n:
-                return n
-        
-        return len(nums)
+        return expected_sum - actual_sum
