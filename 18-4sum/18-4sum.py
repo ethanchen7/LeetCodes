@@ -1,26 +1,33 @@
 class Solution:
     def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        
+        self.result = []
         nums.sort()
-        result = []
+        # [-2, -1, 0, 0, 1, 2]
         
-        for i in range(len(nums) - 3):
-            if i > 0 and nums[i] == nums[i - 1]:
+        for a in range(len(nums) - 3):
+            if a > 0 and nums[a] == nums[a - 1]:
                 continue
-            for j in range(i + 1, len(nums) - 2):
-                if j > i + 1 and nums[j] == nums[j - 1]:
+            
+            for b in range(a + 1, len(nums) - 2):
+                if b > a + 1 and nums[b] == nums[b-1]:
                     continue
-                self.search(nums, result, i, j, target)
-        
-        return result
                 
-    def search(self, nums, result, i, j, target):
-        low = j + 1
+                self.search(target, nums, a, b, b + 1)
+        
+        return self.result
+    
+    def search(self, target, nums, a, b, low):
+        
         high = len(nums) - 1
         
         while low < high:
-            current_sum = nums[i] + nums[j] + nums[low] + nums[high]
+            
+            current_sum = nums[a] + nums[b] + nums[low] + nums[high]
+            
             if current_sum == target:
-                result.append([nums[i], nums[j], nums[low], nums[high]])
+                self.result.append([nums[a], nums[b], nums[low], nums[high]])
+                
                 low += 1
                 high -= 1
                 
@@ -30,9 +37,10 @@ class Solution:
                 while low < high and nums[high] == nums[high + 1]:
                     high -= 1
             
-            elif current_sum < target:
+            if current_sum < target:
                 low += 1
             
-            else:
+            if current_sum > target:
                 high -= 1
+        
             
