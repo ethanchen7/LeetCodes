@@ -1,25 +1,22 @@
-class Solution(object):
-    def permute(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
         
         result = []
         
         if len(nums) == 1:
-            return [nums[:]] #returns a copy of nums, because we are going to mutate nums
+            return [nums[:]]
         
-        for i in range(len(nums)):
-            n = nums.pop(0)
-            perms = self.permute(nums) # each time, nums is shorter by 1 until we hit our base case
+        for n in nums:
+            
+            num = nums.pop(0)
+            perms = self.permute(nums)
             
             for perm in perms:
-                perm.append(n)
+                perm.append(num)
             
             result.extend(perms)
-            nums.append(n)
+            nums.append(num)
         
         return result
             
-        
+            
