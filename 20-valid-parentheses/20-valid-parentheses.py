@@ -7,21 +7,18 @@ class Solution:
             ']':'['
         }
         
-        if len(s) < 2:
-            return False
-        
         stack = []
-        for p in s:
-            if p in paren:
-                if stack:
-                    char = stack.pop()
-                else:
+        
+        for char in s:
+            if stack and char in paren:
+                p = stack.pop()
+                if p != paren[char]:
                     return False
-                if paren[p] != char:
-                    return False
+            
             else:
-                stack.append(p)
+                stack.append(char)
         
         if stack:
             return False
+        
         return True
