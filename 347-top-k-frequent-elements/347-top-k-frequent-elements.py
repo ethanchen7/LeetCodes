@@ -2,21 +2,21 @@ from heapq import *
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         
-        frequency = {}
-        maxHeap = []
+        nums_dict = {}
         
         for n in nums:
-            if n not in frequency:
-                frequency[n] = 0
-            frequency[n] += 1
+            
+            if n not in nums_dict:
+                nums_dict[n] = 0
+            nums_dict[n] += 1
         
-        for num in frequency:
-            heappush(maxHeap, [-frequency[num], num])
+        maxHeap = []
+        for num in nums_dict:
+            heappush(maxHeap, [-nums_dict[num], num])
         
         res = []
         while k > 0:
-            freq, num = heappop(maxHeap)
-            res.append(num)
+            res.append(heappop(maxHeap)[1])
             k -= 1
         
         return res
