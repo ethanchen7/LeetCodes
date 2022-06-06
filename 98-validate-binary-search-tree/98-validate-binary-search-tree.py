@@ -6,19 +6,16 @@
 #         self.right = right
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        # need to check for min and max values in left and right subtrees
         
-        return self.validate(root, -math.inf, math.inf)
+        def dfs(node, lower, upper):
+            
+            if not node:
+                return True
+            
+            if not lower < node.val < upper:
+                return False
         
-    
-    def validate(self, root, min_val, max_val):
-        if not root:
-            return True
+            return (dfs(node.left, lower, node.val) and
+            dfs(node.right, node.val, upper))
         
-        if not min_val < root.val < max_val:
-            return False
-        
-        left = self.validate(root.left, min_val, root.val)
-        right = self.validate(root.right, root.val, max_val)
-        
-        return left and right
+        return dfs(root, -math.inf, math.inf)
