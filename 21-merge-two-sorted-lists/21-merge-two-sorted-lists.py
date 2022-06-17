@@ -12,28 +12,31 @@ class Solution(object):
         """
         
         dummy = ListNode()
+        
         tail = dummy
         
         while list1 and list2:
             
-            if list1.val < list2.val:
+            if list1.val <= list2.val:
                 tail.next = list1
-                tail = list1
+                tail = tail.next
                 list1 = list1.next
             
             else:
                 tail.next = list2
-                tail = list2
-                list2 = list2.next
+                tail = tail.next
+                list2= list2.next
         
         while list1:
+            
             tail.next = list1
-            tail = list1
+            tail = tail.next
             list1 = list1.next
         
         while list2:
+            
             tail.next = list2
-            tail = list2
+            tail = tail.next
             list2 = list2.next
         
         return dummy.next
