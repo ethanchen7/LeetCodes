@@ -1,24 +1,19 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         
-        paren = {
-            ')':'(',
-            '}':'{',
-            ']':'['
-        }
+        paren = {')':'(', '}':'{', ']':'['}
         
         stack = []
-        
         for char in s:
-            if stack and char in paren:
-                p = stack.pop()
-                if p != paren[char]:
-                    return False
             
-            else:
+            if char not in paren:
                 stack.append(char)
+            else:
+                if stack and stack[-1] == paren[char]:
+                    p = stack.pop()
+                else:
+                    return False
         
-        if stack:
-            return False
-        
-        return True
+        if not stack:
+            return True
+        return False
