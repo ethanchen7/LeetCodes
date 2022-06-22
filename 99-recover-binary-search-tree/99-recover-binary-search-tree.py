@@ -1,17 +1,16 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution(object):
-    def recoverTree(self, root):
+class Solution:
+    def recoverTree(self, root: Optional[TreeNode]) -> None:
         """
-        :type root: TreeNode
-        :rtype: None Do not return anything, modify root in-place instead.
+        Do not return anything, modify root in-place instead.
         """
         
-        self.nodes = []
+        self.prev = self.first_bad = self.second_bad = None
         
         def dfs(node):
             
@@ -19,14 +18,17 @@ class Solution(object):
                 return
             
             dfs(node.left)
-            self.nodes.append(node)
+            
+            if self.prev and not self.first_bad and self.prev.val >= node.val:
+                self.first_bad = self.prev
+            
+            if self.prev and self.first_bad and self.prev.val >= node.val:
+                self.second_bad = node
+            
+            self.prev = node
+            
             dfs(node.right)
+            
         
         dfs(root)
-        
-        sorted_nodes = sorted(node.val for node in self.nodes)
-        
-        for i in range(len(sorted_nodes)):
-            if self.nodes[i] != sorted_nodes[i]:
-                self.nodes[i].val = sorted_nodes[i]
-        
+        self.first_bad.val, self.second_bad.val = self.second_bad.val, self.first_bad.val
