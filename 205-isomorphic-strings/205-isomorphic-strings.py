@@ -1,20 +1,19 @@
-class Solution:
-    def isIsomorphic(self, s: str, t: str) -> bool:
-
-        s_hash = {}
+class Solution(object):
+    def isIsomorphic(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        char_map_s = {}
+        char_map_t = {}
         
-        for i,char in enumerate(s):
-            if char not in s_hash:
-                s_hash[char] = []
-            s_hash[char].append(i)
+        for char_s, char_t in zip(s, t):
+            if (char_s not in char_map_s) and (char_t not in char_map_t):
+                char_map_s[char_s] = char_t
+                char_map_t[char_t] = char_s
             
-        
-        t_hash = {}
-        for i,char in enumerate(t):
-            if char not in t_hash:
-                t_hash[char] = []
-            t_hash[char].append(i)
-        
-        
-        return list(s_hash.values()) == list(t_hash.values())
-            
+            else:
+                if (char_map_s.get(char_s) != char_t) or (char_map_t.get(char_t) != char_s):
+                    return False
+        return True
