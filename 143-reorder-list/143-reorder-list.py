@@ -1,14 +1,14 @@
 # Definition for singly-linked list.
-# class ListNode(object):
+# class ListNode:
 #     def __init__(self, val=0, next=None):
 #         self.val = val
 #         self.next = next
-class Solution(object):
-    def reorderList(self, head):
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
         """
-        :type head: ListNode
-        :rtype: None Do not return anything, modify head in-place instead.
+        Do not return anything, modify head in-place instead.
         """
+        # reverse second half
         
         slow, fast = head, head
         
@@ -24,17 +24,14 @@ class Solution(object):
             slow = temp
         
         curr = head
-        while curr and prev:
-            tempCurr = curr.next
+        while prev.next:
+            temp = curr.next
+            prev_temp = prev.next
             curr.next = prev
-            curr = tempCurr
-            
-            tempPrev = prev.next
+            curr = temp
             prev.next = curr
-            prev = tempPrev
-        
-        # lines 32-34 create a cycle if it's the last node. so we just set it to point to None
-        if curr:
-            curr.next = None
+            prev = prev_temp
         
         return head
+            
+            
