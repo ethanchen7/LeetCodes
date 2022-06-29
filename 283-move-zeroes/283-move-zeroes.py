@@ -4,13 +4,10 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         
-        zero = 0
+        zero_idx = 0
         
         for pointer in range(len(nums)):
             if nums[pointer] != 0:
-                nums[zero], nums[pointer] = nums[pointer], nums[zero]
-                zero += 1
-            
+                nums[zero_idx], nums[pointer] = nums[pointer], nums[zero_idx]
+                zero_idx += 1
             pointer += 1
-        
-        
