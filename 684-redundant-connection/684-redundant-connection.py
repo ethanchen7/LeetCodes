@@ -1,36 +1,35 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
         
-        parents = [i for i in range(0, len(edges) + 1)]
-        rank = [1] * (len(edges) + 1)
+        self.parents = [i for i in range(len(edges) + 2)]
+        self.ranks = [1] * (len(edges) + 1)
         
-        def find(node):
-            if parents[node] != node:
-                parents[node] = find(parents[node])
-            
-            return parents[node]
+    
+        def find(x):
+            if not self.parents[x] == x:
+                self.parents[x] = find(self.parents[x])
+            return self.parents[x]
         
-        def union(node1, node2):
-            root_one = find(node1)
-            root_two = find(node2)
+        def union(x, y):
+            root_x = find(x)
+            root_y = find(y)
             
-            if root_one == root_two:
+            if root_x == root_y:
                 return False
             
-            if rank[root_one] == rank[root_two]:
-                parents[root_two] = node1
-                rank[root_one] += 1
+            if self.ranks[root_x] > self.ranks[root_y]:
+                self.parents[root_y] = root_x
+                self.ranks[root_x] += 1
             
-            elif rank[root_two] > rank[root_one]:
-                parents[root_one] = root_two
-                rank[root_two] += 1
+            elif self.ranks[root_y] > self.ranks[root_x]:
+                self.parents[root_x] = root_y
             
             else:
-                parents[root_two] = root_one
-                
-            return True 
+                self.parents[root_y] = root_x
+            
+            return True
         
-        for node1, node2 in edges:
-            if not union(node1, node2):
-                return [node1, node2]
+        for x, y in edges:
+            if not union(x, y):
+                return [x,y]
             
