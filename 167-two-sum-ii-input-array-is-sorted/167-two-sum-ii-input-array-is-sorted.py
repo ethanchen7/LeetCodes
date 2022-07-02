@@ -5,13 +5,15 @@ class Solution:
         
         while left < right:
             
-            curr_sum = numbers[left] + numbers[right]
+            current_sum = numbers[left] + numbers[right]
             
-            if curr_sum == target:
+            if current_sum == target:
                 return [left + 1, right + 1]
             
-            elif curr_sum > target:
-                right -= 1
+            elif current_sum < target:
+                left += 1
             
             else:
-                left += 1
+                right -= 1
+        
+        
