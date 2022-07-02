@@ -1,15 +1,13 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
         
-        currPosition, runner = 0, 0
+        curr_idx = 0
         
-        while runner < len(nums):
+        for pointer in range(len(nums)):
+            if nums[pointer] != nums[curr_idx]:
+                curr_idx += 1
+                nums[curr_idx] = nums[pointer]
             
-            if nums[runner] != nums[currPosition]:
-                currPosition += 1
-                nums[currPosition] = nums[runner]
-                     
-            runner += 1
+            pointer += 1
         
-        return currPosition + 1
-    
+        return curr_idx + 1
