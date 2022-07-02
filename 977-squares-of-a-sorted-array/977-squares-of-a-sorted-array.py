@@ -1,27 +1,24 @@
-class Solution(object):
-    def sortedSquares(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[int]
-        """
-        squares = [0 for x in nums]
-        left = 0
-        n = len(nums) - 1
-        right, largest_num_idx = n, n
+class Solution:
+    def sortedSquares(self, nums: List[int]) -> List[int]:
         
+        squares = [0] * len(nums)
+        top_idx = len(nums) - 1
+        
+        left, right = 0, len(nums) - 1
         while left <= right:
-            left_square = nums[left] * nums[left]
-            right_square = nums[right] * nums[right]
+            left_sq = nums[left] ** 2
+            right_sq = nums[right] ** 2
             
-            if left_square < right_square:
-                squares[largest_num_idx] = right_square
-                right -= 1
-            
-            else:
-                squares[largest_num_idx] = left_square
+            if left_sq >= right_sq:
+                squares[top_idx] = left_sq
                 left += 1
             
-            largest_num_idx -= 1
+            else:
+                squares[top_idx] = right_sq
+                right -= 1
+            
+            top_idx -= 1
         
         return squares
+        
         
