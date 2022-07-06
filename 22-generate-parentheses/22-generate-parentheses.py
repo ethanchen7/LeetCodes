@@ -1,28 +1,26 @@
-class Solution(object):
-    def generateParenthesis(self, n):
-        """
-        :type n: int
-        :rtype: List[str]
-        """
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
         
         result = []
-        stack = []
+        paren = []
         
-        def backtrack(openN, closedN):
+        def dfs(openN, closedN):
             
-            if openN == closedN == n:
-                result.append(''.join(stack))
+            if openN == closedN == n: 
+                result.append("".join(paren))
                 return
             
             if openN < n:
-                stack.append('(')
-                backtrack(openN + 1, closedN)
-                stack.pop()
+                paren.append('(')
+                dfs(openN + 1, closedN)
+                paren.pop()
             
             if closedN < openN:
-                stack.append(')')
-                backtrack(openN, closedN + 1)
-                stack.pop()
-        
-        backtrack(0,0)
+                paren.append(')')
+                dfs(openN, closedN + 1)
+                paren.pop()
+            
+        dfs(0, 0)
         return result
+            
+            
