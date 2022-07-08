@@ -9,13 +9,13 @@ class Solution(object):
         :type head: ListNode
         :rtype: bool
         """
-        
         slow, fast = head, head
         
         while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
         
+        slow_marker = slow
         prev = None
         while slow:
             temp = slow.next
@@ -23,10 +23,14 @@ class Solution(object):
             prev = slow
             slow = temp
         
-        while prev:
-            if head.val != prev.val:
+        curr = head
+        while curr != slow_marker:
+            
+            if curr.val != prev.val:
                 return False
-            head = head.next
+            
+            curr = curr.next
             prev = prev.next
         
         return True
+            
