@@ -1,13 +1,23 @@
-class Solution:
-    def missingNumber(self, nums: List[int]) -> int:
+class Solution(object):
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
         
-        nums_len = len(nums)
-        expected_sum = 0
-        for n in range(nums_len + 1):
-            expected_sum += n
+        # cyclic sort the array
+        i = 0
+        while i < len(nums):
+            j = nums[i]
+            if j < len(nums) - 1 and nums[i] != nums[j]:
+                nums[i], nums[j] = nums[j], nums[i]
+            else:
+                i += 1
         
-        actual_sum = 0
-        for i in nums:
-            actual_sum += i
+        for i in range(len(nums)):
+            if nums[i] != i:
+                return i
         
-        return expected_sum - actual_sum
+        return len(nums)
+                
+            
