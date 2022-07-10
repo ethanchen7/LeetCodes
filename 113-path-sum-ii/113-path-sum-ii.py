@@ -11,23 +11,25 @@ class Solution(object):
         :type targetSum: int
         :rtype: List[List[int]]
         """
+        
         result = []
-        self.dfs(root, [], 0, targetSum, result)
+        
+        def dfs(root, pathNodes, pathSum):
+            
+            if not root:
+                return
+            
+            pathSum += root.val
+            pathNodes = pathNodes + [root.val]
+            
+            if not root.left and not root.right and pathSum == targetSum:
+                result.append(pathNodes)
+            
+            if root.left:
+                dfs(root.left, pathNodes, pathSum)
+            
+            if root.right:
+                dfs(root.right, pathNodes, pathSum)
+        
+        dfs(root, [], 0)
         return result
-        
-    def dfs(self, node, currPath, localSum, targetSum, result):
-        
-        if not node:
-            return
-        
-        currPath = currPath + [node.val]
-        localSum += node.val
-        
-        if not node.left and not node.right and localSum == targetSum:
-            result.append(currPath)
-        
-        self.dfs(node.left, currPath, localSum, targetSum, result)
-        self.dfs(node.right, currPath, localSum, targetSum, result)
-        
-        
-        
