@@ -7,19 +7,16 @@
 class Solution:
     def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         
-        result = []
-        if not root: return result
-        
-        queue = collections.deque()
-        queue.append(root)
-        
         reverse = False
+        result = []
+        
+        if not root:
+            return result
+        
+        queue = collections.deque([root])
         while queue:
-            
-            q_len = len(queue)
-            curr_subarr = collections.deque()
-            
-            for i in range(q_len):
+            temp_arr = collections.deque()
+            for _ in range(len(queue)):
                 node = queue.popleft()
                 
                 if node.left:
@@ -28,12 +25,12 @@ class Solution:
                     queue.append(node.right)
                 
                 if reverse:
-                    curr_subarr.appendleft(node.val)
+                    temp_arr.appendleft(node.val)
                 else:
-                    curr_subarr.append(node.val)
+                    temp_arr.append(node.val)
+                    
             
             reverse = not reverse
-            result.append(list(curr_subarr))
+            result.append(list(temp_arr))
         
         return result
-            
