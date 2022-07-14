@@ -3,23 +3,26 @@ class Solution:
         
         adj_list = {i: [] for i in range(len(graph))}
         
-        for i, edge in enumerate(graph):
-            for e in edge:
-                adj_list[i].append(e)
+        for i, e in enumerate(graph):
+            adj_list[i] += e
         
-        res = []
+        queue = collections.deque()
         path = [0]
+        queue.append(path)
         
-        def dfs(node, path):
+        result = []
+        
+        while queue:
             
-            if node == len(graph) - 1:
-                res.append(path)
-                return
-                
-            for vertex in adj_list[node]:
-                new_path = path + [vertex]
-                dfs(vertex, new_path)
+            current_path = queue.popleft()
+            last_node = current_path[-1]
+            
+            for vertex in graph[last_node]:
+                temp_path = current_path[:]
+                temp_path.append(vertex)
+                if vertex == len(graph) - 1:
+                    result.append(temp_path)
+                else:
+                    queue.append(temp_path)
         
-        dfs(0, path)
-        return res
-                
+        return result
