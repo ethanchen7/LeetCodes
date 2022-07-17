@@ -1,35 +1,35 @@
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         
-        adj_list = {i: [] for i in range(len(points))}
+        edges = []
+        n = len(points)
         
-        for i in range(len(points)):
-            point1 = points[i]
-            for j in range(i+1, len(points)):
-                point2 = points[j]
-                distance = self.getDistance(point1, point2)
-                adj_list[i].append([distance, j])
-                adj_list[j].append([distance, i])
-        # print(adj_list)
+        for i in range(n):
+            for j in range(i+1, n):
+                d = abs(points[i][0] - points[j][0]) + abs(points[i][1] - points[j][1])
+                edges.append((d, i, j))
         
-        res = 0
-        visited = set()
-        minHeap = [[0,0]] # distance, point
+        edges.sort()
         
-        while len(visited) < len(points):
-            dist, i = heapq.heappop(minHeap)
-            if i in visited:
-                continue
-            visited.add(i)
-            res += dist
+        roots = [i for i in range(n)]
+        
+        def find(v):
+            if roots[v] != v:
+                roots[v] = find(roots[v])
+            return roots[v]
+        
+        def union(u, v):
+            p1 = find(u)
+            p2 = find(v)
             
-            for neiDist, neighbor in adj_list[i]:
-                heapq.heappush(minHeap,[neiDist,neighbor])
+            if p1 != p2:
+                roots[p2] = roots[p1]
+                return True
+            return False
+    
+        res = 0
+        for d, u, v in edges:
+            if union(u,v):
+                res += d
         
         return res
-                
-                
-    
-    def getDistance(self, one, two):
-        total = abs(one[0]-two[0]) + abs(one[1]-two[1])
-        return total
