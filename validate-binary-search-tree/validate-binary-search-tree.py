@@ -7,14 +7,14 @@
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
         
-        def validate(node, lower, upper):
+        def dfs(root, lb, ub):
             
-            if not node:
+            if not root:
                 return True
             
-            if not lower < node.val < upper:
+            if not lb < root.val < ub:
                 return False
             
-            return validate(node.left, lower, node.val) and validate(node.right, node.val, upper)
+            return dfs(root.left, lb, root.val) and dfs(root.right, root.val, ub)
         
-        return validate(root, -math.inf, math.inf)
+        return dfs(root, -math.inf, math.inf)
