@@ -1,6 +1,9 @@
-class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
         left = 0
         right = len(height) - 1
         res = 0
