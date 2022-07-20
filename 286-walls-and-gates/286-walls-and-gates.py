@@ -15,6 +15,7 @@ class Solution:
             for c in range(cols):
                 if rooms[r][c] == 0:
                     queue.append((r,c))
+                    visited.add((r,c))
         
         step = 0
         while queue:
@@ -22,14 +23,13 @@ class Solution:
             
             for _ in range(len(queue)):
                 r,c = queue.popleft()
-                visited.add((r,c))
                 
-                if rooms[r][c] == pow(2,31) - 1:
-                    rooms[r][c] = step
+                rooms[r][c] = step
                 
                 for x,y in directions:
                     newR, newC = x + r, y + c
                     if 0<=newR<row and 0<=newC<cols and (newR, newC) not in visited and rooms[newR][newC] != -1:
                         queue.append((newR,newC))
+                        visited.add((newR,newC))
             
             step += 1
