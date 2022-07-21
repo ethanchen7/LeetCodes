@@ -1,20 +1,14 @@
-class Solution(object):
-    def checkInclusion(self, s1, s2):
-        """
-        :type s1: str
-        :type s2: str
-        :rtype: bool
-        """
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        
         char_frequency = {}
         matched = 0
-        start = 0
         
-        # first, add all the characters to the hashmap
+        start = 0
         for char in s1:
             if char not in char_frequency:
                 char_frequency[char] = 0
             char_frequency[char] += 1
-        
         
         for end in range(len(s2)):
             right = s2[end]
@@ -35,4 +29,3 @@ class Solution(object):
                 return True
         
         return False
-                
