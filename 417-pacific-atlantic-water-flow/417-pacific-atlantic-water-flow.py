@@ -1,42 +1,36 @@
-class Solution(object):
-    def pacificAtlantic(self, heights):
-        """
-        :type heights: List[List[int]]
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         
-        rows, cols = len(heights), len(heights[0])
-        pac, atl = [], []
-        pacVisited, atlVisited = set(), set()
+        dirs = [[0,1],[0,-1],[1,0],[-1,0]]
+        rows = len(heights)
+        cols = len(heights[0])
         
-        # add all the pacific and atlantic sided nodes to their arrays for traversal
+        pac = deque()
+        atl = deque()
         
         for r in range(rows):
-            pac.append((r,0)) #left side pacific
-            atl.append((r, cols - 1)) # right side atlantic
+            pac.append((r,0))
+            atl.append((r, cols - 1))
         
         for c in range(cols):
-            pac.append((0, c)) # top side pacific
-            atl.append((rows - 1, c)) # bottom side atlantic
+            pac.append((0, c))
+            atl.append((rows - 1, c))
+        
+        pac_visited = set()
+        atl_visited = set()
+        
+        def bfs(queue, visited):
             
-        def dfs(r,c,visited):
-            
-            visited.add((r,c))
-            dirs = [[1,0], [-1,0], [0,1],[0, -1]]
-            
-            for di, dj in dirs:
-                newR, newC = r + di, c + dj
-                if ((0 <= newR < rows) and 
-                    (0 <= newC < cols) and
-                    heights[newR][newC] >= heights[r][c] and
-                    (newR, newC) not in visited):
-                    dfs(newR, newC, visited)
+            while queue:
+                
+                r, c = queue.popleft()
+                visited.add((r,c))
+                
+                for x, y in dirs:
+                    newR, newC = r + x, c + y
+                    if 0<=newR<rows and 0<=newC<cols and heights[newR][newC] >= heights[r][c] and (newR, newC) not in visited:
+                        queue.append((newR, newC))
         
-        for r,c in pac:
-            dfs(r,c,pacVisited)
-        
-        for r,c in atl:
-            dfs(r,c,atlVisited)
-        
-        return pacVisited & atlVisited # return the intersection of the two sets
-        
+        bfs(pac, pac_visited)
+        bfs(atl, atl_visited)
+        return pac_visited.intersection(atl_visited)
