@@ -1,34 +1,31 @@
-class Solution(object):
-    def exist(self, board, word):
-        """
-        :type board: List[List[str]]
-        :type word: str
-        :rtype: bool
-        """
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        
         ROWS = len(board)
         COLS = len(board[0])
-        path = set()
+        
+        visited = set()
         
         def dfs(r, c, i):
             
             if i == len(word):
                 return True
             
-            if (r < 0 or c < 0 or 
-                r >= ROWS or c >= COLS or
-               word[i] != board[r][c] or 
-                (r,c) in path
-               ): 
+            if ((r < 0 or c < 0) or 
+                (r > ROWS - 1 or c > COLS - 1) or
+                (board[r][c] != word[i] or 
+                (r,c) in visited)
+               ):
                 return False
             
-            path.add((r,c))
+            visited.add((r,c))
             
-            result = (dfs(r + 1, c, i + 1) or 
-                      dfs(r - 1, c, i + 1) or 
-                      dfs(r, c + 1, i + 1) or 
-                      dfs(r, c - 1, i + 1))
+            result = (dfs(r - 1, c, i + 1) or 
+                     dfs(r + 1, c, i + 1) or 
+                     dfs(r, c + 1, i + 1) or 
+                     dfs(r, c - 1, i + 1))
             
-            path.remove((r,c))
+            visited.remove((r,c))
             return result
         
         for r in range(ROWS):
