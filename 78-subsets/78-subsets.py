@@ -1,16 +1,24 @@
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
         
-        subsets = []
+        result = []
+        sub = []
         
-        subsets.append([])
-        
-        for n in nums:
+        def dfs(sub, i):
             
-            for i in range(len(subsets)):
-                set1 = list(subsets[i]) # make a copy of each subset
-                set1.append(n)
-                subsets.append(set1)
-        
-        return subsets
+            if i >= len(nums):
+                result.append(sub[:])
+                return
             
+            sub.append(nums[i])
+            dfs(sub, i + 1)
+            
+            sub.pop()
+            dfs(sub, i + 1)
+        
+        dfs(sub, 0)
+        return result
