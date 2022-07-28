@@ -3,24 +3,26 @@ class Solution:
         
         graph = {i + 1: [] for i in range(n)}
         
-        for relation in times:
-            source, sink, time = relation
-            graph[source].append([sink, time])
+        for u, v, w in times:
+            graph[u].append([w, v])
         
         minHeap = [[0, k]]
         visited = set()
-        t = 0
+        
+        time = 0
         
         while minHeap:
-            t1, node = heappop(minHeap)
-            if node not in visited:
-                t = t1
-                visited.add(node)
-                for v, t2 in graph[node]:
-                    heappush(minHeap, [t2 + t1, v])
             
-        if len(visited) == n:
-            return t
+            t, v = heappop(minHeap)
+            if v not in visited:
+                time = t
+                visited.add(v)
+                
+                for t2, node in graph[v]:
+                    heappush(minHeap, [time + t2, node])
         
-        else:
-            return -1
+        if len(visited) == n:
+            return time
+        
+        return -1
+            
