@@ -1,37 +1,30 @@
-class Solution(object):
-    def canFinish(self, numCourses, prerequisites):
-        """
-        :type numCourses: int
-        :type prerequisites: List[List[int]]
-        :rtype: bool
-        """
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
-        adjList = collections.defaultdict(list)
+        sorted_order = []
         
-        for course, prereq in prerequisites:
-            adjList[course].append(prereq)
+        graph = {i: [] for i in range(numCourses)} 
+        inDegrees = {i:0 for i in range(numCourses)}
         
-        #DFS
-        visited = set()
-        def cycle(course):
+        for crs, dep in prerequisites:
+            graph[crs].append(dep)
+            inDegrees[dep] += 1
+        
+        sources = deque()
+        for key in inDegrees:
+            if inDegrees[key] == 0:
+                sources.append(key)
+        
+        while sources:
+            source = sources.popleft()
+            sorted_order.append(source)
             
-            if course in visited:
-                return True
-            
-            if not adjList[course]:
-                return False
-            
-            visited.add(course)
-            for pre in adjList[course]:
-                if cycle(pre): 
-                    return True
-                
-            visited.remove(course)
-            adjList[course] = []
+            for vertex in graph[source]:
+                inDegrees[vertex] -= 1
+                if inDegrees[vertex] == 0:
+                    sources.append(vertex)
+        
+        if len(sorted_order) != numCourses:
             return False
-                
-        for i in range(numCourses):
-            if cycle(i):
-                return False
         
         return True
