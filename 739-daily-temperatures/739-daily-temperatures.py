@@ -6,12 +6,10 @@ class Solution:
         stack = []
         
         for i, temp in enumerate(temperatures):
+            while stack and stack[-1][1] < temp:
+                idx, tmp = stack.pop()
+                res[idx] = i - idx
             
-            if stack:
-                while stack and stack[-1][1] < temp:
-                    old_idx, old_temp = stack.pop()
-                    res[old_idx] = i - old_idx
-            
-            stack.append([i, temp])
+            stack.append((i, temp))
         
         return res
