@@ -11,18 +11,18 @@ class Solution:
         def dfs(node):
             
             if not node:
-                return
+                return None
             
-            if p.val < node.val and q.val < node.val:
+            if p.val <= node.val <= q.val:
+                return node
+            
+            elif node.val > p.val and node.val > q.val:
                 return dfs(node.left)
-            elif p.val > node.val and q.val > node.val:
+        
+            elif node.val < p.val and node.val < q.val:
                 return dfs(node.right)
+            
             else:
                 return node
         
         return dfs(root)
-            
-            
-            
-            
-            
