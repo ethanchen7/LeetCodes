@@ -1,28 +1,30 @@
 class Solution:
     def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         
-        graph = {i + 1: [] for i in range(n)}
+        graph = collections.defaultdict(list)
         
-        for u, v, w in times:
-            graph[u].append([w, v])
-        
+        for u, w, t in times:
+            graph[u].append([t, w])
+        print(graph)
         minHeap = [[0, k]]
+        
         visited = set()
         
         time = 0
-        
         while minHeap:
             
-            t, v = heappop(minHeap)
-            if v not in visited:
-                time = t
-                visited.add(v)
+            t, node = heappop(minHeap)
+            if node in visited:
+                continue
+            visited.add(node)
+            time = t # save the lowest time
+            
+            if node not in graph:
+                continue
+            for tm, v in graph[node]:
+                heappush(minHeap, [time + tm, v])
                 
-                for t2, node in graph[v]:
-                    heappush(minHeap, [time + t2, node])
-        
         if len(visited) == n:
             return time
-        
         return -1
             
