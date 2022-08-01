@@ -1,34 +1,31 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
         
-        self.parents = [i for i in range(n)]
-        self.rank = [1] * n
+        parents = [i for i in range(n)]
+        ranks = [1 for i in range(n)]
         
-        def find(node):
-            if self.parents[node] != node:
-                self.parents[node] = find(self.parents[node])
-            return self.parents[node]
-        
+        def find(x):
+            if parents[x] != x:
+                parents[x] = find(parents[x])
+            return parents[x]
+    
         def union(x, y):
             root_x = find(x)
             root_y = find(y)
             
-            if self.rank[root_x] == self.rank[root_y]:
-                self.parents[root_y] = root_x
-                self.rank[root_x] += 1
-            
-            elif self.rank[root_y] > self.rank[root_x]:
-                self.parents[root_x] = root_y
+            if ranks[root_x] >= ranks[root_y]:
+                parents[root_y] = root_x
+                ranks[root_x] += ranks[root_y]
             
             else:
-                self.parents[root_y] = root_x
+                parents[root_x] = root_y
+                ranks[root_y] += ranks[root_x]
         
         for x, y in edges:
             union(x, y)
         
-        parents = set()
-        for p in self.parents:
-            parents.add(find(p))
+        p = set()
+        for par in parents:
+            p.add(find(par))
         
-        return len(parents)
-            
+        return len(p)
