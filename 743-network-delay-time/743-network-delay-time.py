@@ -22,7 +22,8 @@ class Solution:
             if node not in graph:
                 continue
             for tm, v in graph[node]:
-                heappush(minHeap, [time + tm, v])
+                if v not in visited:
+                    heappush(minHeap, [time + tm, v])
                 
         if len(visited) == n:
             return time
