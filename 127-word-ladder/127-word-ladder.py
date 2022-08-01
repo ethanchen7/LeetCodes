@@ -1,37 +1,42 @@
 class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         
-        if endWord not in wordList:
-            return 0
-        
         graph = collections.defaultdict(list)
         
         for word in wordList:
-            chars = list(word)
-            for j in range(len(word)):
-                pattern = chars[:]
-                pattern[j] = "*"
-                graph["".join(pattern)].append(word)
+            i = 0
+            
+            while i < len(word):
+                chars = list(word)
+                chars[i] = '*'
+                graph["".join(chars)].append(word)
+                i += 1
         
-        queue = collections.deque()
-        queue.append((beginWord, 0))
         visited = set()
+        queue = deque()
+        queue.append((beginWord, 1))
         
         while queue:
             
-            word, step = queue.popleft()
+            word, length = queue.popleft()
             
             if word == endWord:
-                return step + 1
+                return length
             
-            if word not in visited:
-                visited.add(word)
-                
+            for i in range(len(word)):
                 chars = list(word)
-                for j in range(len(word)):
-                    pattern = chars[:]
-                    pattern[j] = "*"
-                    for w in graph["".join(pattern)]:
-                        if w not in visited:
-                            queue.append((w, step + 1))
+                chars[i] = "*"
+                potential_word = "".join(chars)
+                
+                if potential_word in graph:
+                    for wrd in graph[potential_word]:
+                        
+                        if wrd in visited:
+                            continue
+                        else:
+                            queue.append((wrd, length + 1))
+                            visited.add(wrd)
+        
         return 0
+            
+            
