@@ -2,26 +2,22 @@ import math
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         
-        max_k = max(piles)
-        min_speed = max(piles)
-        
         left = 1
-        right = max_k
+        right = max(piles)
+        minimum_k = right
         
         while left <= right:
             
-            mid_k = left + (right - left) // 2
+            mid = left + (right - left) // 2
+            
             hours = 0
+            for pile in piles:
+                hours += math.ceil(pile/mid)
             
-            for p in piles:
-                time = math.ceil(p / mid_k)
-                hours += time
-        
             if hours <= h:
-                min_speed = min(min_speed, mid_k)
-                right = mid_k - 1
-            
+                minimum_k = min(minimum_k, mid)
+                right = mid - 1
             else:
-                left = mid_k + 1
+                left = mid + 1
         
-        return min_speed
+        return minimum_k
