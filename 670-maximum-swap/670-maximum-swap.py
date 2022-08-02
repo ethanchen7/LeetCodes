@@ -2,15 +2,17 @@ class Solution:
     def maximumSwap(self, num: int) -> int:
         
         list_num = list(str(num))
-        res = list_num[:]
+        max_idx = len(list_num) - 1
         
-        for i in range(len(list_num)):
-            for j in range(i + 1, len(list_num)):
-                list_num[i], list_num[j] = list_num[j], list_num[i] # swap
-                if list_num > res:
-                    res = list_num[:] # save the result if it's greater
-                list_num[i], list_num[j] = list_num[j], list_num[i] # swap back
+        x, y = 0, 0
+        for i in range(len(list_num)- 1, -1, -1):
+            
+            if list_num[i] > list_num[max_idx]:
+                max_idx = i
+            
+            elif list_num[i] < list_num[max_idx]:
+                x = i
+                y = max_idx
         
-        return "".join(res)
-                
-        
+        list_num[x], list_num[y] = list_num[y], list_num[x]
+        return int("".join(list_num))
