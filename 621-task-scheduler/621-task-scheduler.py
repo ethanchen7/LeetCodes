@@ -1,23 +1,27 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         
-        task_map = Counter(tasks)
-        maxHeap = [-task_map[count] for count in task_map]
-        heapify(maxHeap)
+        counter = Counter(tasks)
+        heap = []
+        for key in counter:
+            heappush(heap, -counter[key])
         
         queue = deque()
+        
         time = 0
-        while maxHeap or queue:
+        while heap or queue:
             
-            time += 1
-            
-            if maxHeap:
-                count =  1 + heappop(maxHeap)
-                if count:
-                    queue.append((count, time + n))
+            if heap:
+                count = heappop(heap)
+                if count < -1:
+                    queue.append((count + 1, time + n)) # available at current time + idle time
             
             if queue and queue[0][1] == time:
-                count, t = queue.popleft()
-                heappush(maxHeap, count)
+                cnt, tm = queue.popleft()
+                heappush(heap, cnt)
+            
+            time += 1
         
         return time
+            
+                
