@@ -6,6 +6,8 @@ class Solution:
         # decisions
         # take 0 1 or 2 of each topping
         
+        dp = [[-1 for i in range((sum(baseCosts) + sum(toppingCosts) * 2 + 1))] for i in range(len(toppingCosts))]
+        
         closest = math.inf
         min_difference = math.inf
         
@@ -23,10 +25,15 @@ class Solution:
             if i == len(toppingCosts):
                 return
             
+            if dp[i][curr_cost] != -1:
+                return dp[i][curr_cost]
+            
             dfs(i + 1, curr_cost)
             dfs(i + 1, curr_cost + toppingCosts[i])
             dfs(i + 1, curr_cost + toppingCosts[i] * 2)
             
+            dp[i][curr_cost] = closest
+            return dp[i][curr_cost]
             # for j in range(3):
             #     curr_cost += toppingCosts[i] * j
             #     dfs(i + 1, curr_cost)
