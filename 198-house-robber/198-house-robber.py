@@ -1,13 +1,16 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
         
-        dp = nums[:] + [0]
+        if len(nums) == 1:
+            return nums[0]
         
-        if len(nums) <= 2:
-            return max(nums)
+        dp = [0] * len(nums)
+        dp[0]= nums[0]
         
+        # two decisions: rob two houses before and this one, or just don't rob this one, rob the previous one
         for i in range(1, len(nums)):
-            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
-        
-        print(dp)
-        return dp[len(nums) - 1]
+            rob_two_houses_before = dp[i - 2] + nums[i]
+            rob_one_house_before = dp[i - 1]
+            dp[i] = max(rob_two_houses_before, rob_one_house_before)
+
+        return max(dp)
