@@ -5,29 +5,26 @@ class Solution(object):
         :rtype: bool
         """
         
-        if (sum(nums) % 2) != 0:
+        if (sum(nums) % 2 != 0):
             return False
         
         target = sum(nums) // 2
         
-        dp = [[-1 for i in range(target + 1)] for x in range(len(nums))]
+        dp = [[False for i in range(target + 1)] for j in range(len(nums))]
         
-        def dfs(idx, total):
-            
-            if total == target:
-                return True
-            
-            if total > target or idx >= len(nums):
-                return False
-            
-            if dp[idx][total] != -1:
-                return dp[idx][total]
-            
-            total1 = dfs(idx + 1, total + nums[idx])
-            total2 = dfs(idx + 1, total)
-            
-            dp[idx][total] = (total1 or total2)
-            
-            return dp[idx][total]
+        for i in range(target + 1):
+            if nums[0] == i:
+                dp[0][i] = True
         
-        return dfs(0, 0)
+        for j in range(len(nums)):
+            dp[j][0] = True
+        
+        for i in range(1, len(nums)):
+            for t in range(1, target + 1):
+                if dp[i - 1][t]:
+                    dp[i][t] = dp[i - 1][t]
+                
+                elif t >= nums[i]:
+                    dp[i][t] = dp[i - 1][t] or dp[i - 1][t - nums[i]]
+        
+        return dp[-1][target]
