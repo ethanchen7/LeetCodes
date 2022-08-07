@@ -10,17 +10,14 @@ class Solution:
         
         def dfs(node):
             
-            if not node:
-                return None
-            
-            if p.val <= node.val <= q.val:
+            if node.val >= p.val and node.val <= q.val:
                 return node
             
+            if node.val < p.val and node.val < q.val:
+                return dfs(node.right)
+                
             elif node.val > p.val and node.val > q.val:
                 return dfs(node.left)
-        
-            elif node.val < p.val and node.val < q.val:
-                return dfs(node.right)
             
             else:
                 return node
