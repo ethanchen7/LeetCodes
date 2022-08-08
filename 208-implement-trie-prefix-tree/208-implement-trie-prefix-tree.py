@@ -1,20 +1,40 @@
 class Trie:
 
     def __init__(self):
-        self.word = collections.defaultdict()
+        self.trie = {}
         
 
     def insert(self, word: str) -> None:
-        self.word[word] = True
+        root = self.trie
+        for char in word:
+            if char not in root:
+                root[char] = {}
+            
+            root = root[char]
+        
+        root['finished'] = word
 
     def search(self, word: str) -> bool:
-        return word in self.word.keys()
+        root = self.trie
+        for char in word:
+            if char in root:
+                root = root[char]
+                # print(root)
+        
+        if 'finished' not in root:
+            return False
+        
+        return root['finished'] == word
 
     def startsWith(self, prefix: str) -> bool:
-        n = len(prefix)
-        for word in self.word.keys():
-            if word[0:n] == prefix:
-                return True
+        root = self.trie
+        for char in prefix:
+            if char in root:
+                root = root[char]
+            else:
+                return False
+        
+        return True
 
 
 # Your Trie object will be instantiated and called as such:
