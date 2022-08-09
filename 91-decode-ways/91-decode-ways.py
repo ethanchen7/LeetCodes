@@ -1,26 +1,19 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
         
-        dp = [-1 for i in range(len(s))]
+        dp = [0 for i in range(len(s) + 1)]
+        dp[0] = 1
+        dp[1] = 0 if s[0] == "0" else 1
         
-        def dfs(idx):
+        for i in range(2, len(dp)):
+            if s[i - 1] != '0':
+                dp[i] = dp[i - 1] # single digit
             
-            if idx == len(s):
-                return 1
-            
-            if s[idx] == "0":
-                return 0
-            
-            if idx == len(s) - 1:
-                return 1
-            
-            if dp[idx] != -1:
-                return dp[idx]
-            
-            dp[idx] = dfs(idx + 1)
-            if int(s[idx: idx + 2]) <= 26:
-                dp[idx] += dfs(idx + 2)
-            
-            return dp[idx]
+            two_digits = s[i-2:i]
+            if int(two_digits) >= 10 and int(two_digits) <= 26:
+                dp[i] += dp[i - 2]
         
-        return dfs(0)
+        return dp[len(s)]
+                
+        
+        
