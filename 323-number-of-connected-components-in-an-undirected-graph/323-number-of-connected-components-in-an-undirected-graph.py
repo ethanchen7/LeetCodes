@@ -8,10 +8,13 @@ class Solution:
             if parents[x] != x:
                 parents[x] = find(parents[x])
             return parents[x]
-    
+        
         def union(x, y):
             root_x = find(x)
             root_y = find(y)
+            
+            if root_x == root_y:
+                return False
             
             if ranks[root_x] >= ranks[root_y]:
                 parents[root_y] = root_x
@@ -20,12 +23,12 @@ class Solution:
             else:
                 parents[root_x] = root_y
                 ranks[root_y] += ranks[root_x]
+            return True
         
         for x, y in edges:
             union(x, y)
-        
-        p = set()
-        for par in parents:
-            p.add(find(par))
-        
-        return len(p)
+
+        for i in range(len(parents)):
+            find(i)
+            
+        return len(set(parents))
