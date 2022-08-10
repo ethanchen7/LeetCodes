@@ -6,14 +6,19 @@ class MovingAverage:
 
     def next(self, val: int) -> float:
         if len(self.queue) >= self.capacity:
-            self.queue.popleft()
-        self.queue.append(val)
+            prev, old_total = self.queue.popleft()
+            if self.queue:
+                self.queue[-1][1] -= prev
+            
+        if not self.queue:
+            self.queue.append([val, val])
+            return self.queue[-1][1] / len(self.queue)
         
-        total = 0
-        for num in self.queue:
-            total += num
+        prev_sum = self.queue[-1][1]
+        new_sum = prev_sum + val
+        self.queue.append([val, new_sum])
+        return new_sum / len(self.queue)
         
-        return total / len(self.queue)
 
 
 # Your MovingAverage object will be instantiated and called as such:
