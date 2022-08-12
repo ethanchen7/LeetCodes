@@ -5,19 +5,10 @@ class Solution(object):
         :rtype: int
         """
         
-        # cyclic sort the array
-        i = 0
-        while i < len(nums):
-            j = nums[i]
-            if j < len(nums) - 1 and nums[i] != nums[j]:
-                nums[i], nums[j] = nums[j], nums[i]
-            else:
-                i += 1
+        nums_set = set(nums)
         
         for i in range(len(nums)):
-            if nums[i] != i:
+            if i not in nums_set:
                 return i
         
         return len(nums)
-                
-            
