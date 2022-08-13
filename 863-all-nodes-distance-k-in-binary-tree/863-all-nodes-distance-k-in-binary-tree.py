@@ -7,7 +7,8 @@
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        
+        # this approach is similar to a graph, traverse the neighbors up to K distance
+        # mark all the parents of each node so that we can have direct access to them
         parents = {}
         def dfs(node, parent=None):
             
