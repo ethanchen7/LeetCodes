@@ -24,13 +24,13 @@ class Solution:
                     dfs(r, c + 1, i + 1) or 
                     dfs(r, c - 1, i + 1))
             
-            if result: return True
-            
             visited.remove((r,c))
+            return result
         
         for r in range(rows):
             for c in range(cols):
-                if board[r][c] == word[0] and (r,c) not in visited:
+                
+                if board[r][c] == word[0]:
                     res = dfs(r, c, 0)
                     if res:
                         return True
