@@ -1,28 +1,36 @@
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+    
         
         result = []
-        candidates.sort()
-        # [1, 1, 2, 5, 6, 7, 10]
+        numbers = []
+        counter = Counter(candidates)
+        counter = [(c, counter[c]) for c in counter]
+        # [(10, 1), (1, 2), (2, 1), (7, 1), (6, 1), (5, 1)]
         
-        def backtrack(i, total, numbers):
+        def dfs(idx, total, numbers):
             
             if total == target:
                 result.append(numbers[:])
                 return
             
-            if total > target or i >= len(candidates):
+            elif total > target:
                 return
             
-            prev = -1
-            for j in range(i, len(candidates)): 
-            
-                if prev == candidates[j]:
-                    continue
-                numbers.append(candidates[j])
-                prev = candidates[j]
-                backtrack(j + 1, total + candidates[j], numbers)
+            for i in range(idx, len(counter)): # loop through the counter
+                
+                candidate, freq = counter[i]
+                
+                if freq <= 0:
+                    continue 
+                    
+                numbers.append(candidate)
+                counter[i] = (candidate, freq - 1) # decrement the frequency
+                
+                dfs(i, total + candidate, numbers) # search the rest of the numbers
+                
+                counter[i] = (candidate, freq) # backtrack
                 numbers.pop()
-    
-        backtrack(0, 0, [])
+        
+        dfs(0, 0, numbers)
         return result
