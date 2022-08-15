@@ -1,38 +1,34 @@
 class Solution:
-    def partition(self, s: str) -> List[List[str]]:
-        
-        result = []
-        part = []
-        
-        def dfs(i):
-
-            if i >= len(s): # reached the end of the check, append what we have
-                result.append(part[:])
-                return
-            
-            for j in range(i, len(s)):
-                if self.valid(s[i: j + 1]):
-                    part.append(s[i: j + 1])
-                    dfs(j + 1)
-                    part.pop()
-        
-        dfs(0)
-        return result
     
-    
-    def valid(self, substring):
+    def isValid(self, string):
         
-        if not substring: return False
-        
-        left = 0
-        right = len(substring) - 1
-        
+        left, right = 0, len(string) - 1
         while left <= right:
-            
-            if substring[left] != substring[right]:
+            if string[left] != string[right]:
                 return False
             
             left += 1
             right -= 1
-            
+        
         return True
+    
+    def partition(self, s: str) -> List[List[str]]:
+        
+        # palin = []
+        result = []
+        
+        def dfs(start, palin):
+
+            if start == len(s):
+                result.append(palin[:])
+                return
+            
+            for end in range(start + 1, len(s) + 1):
+                
+                if self.isValid(s[start: end]):
+                    palin.append(s[start: end])
+                    dfs(end, palin)
+                    palin.pop()
+        
+        dfs(0, [])
+        return result
