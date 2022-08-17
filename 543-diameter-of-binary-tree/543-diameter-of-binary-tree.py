@@ -16,12 +16,21 @@ class Solution:
             if not node:
                 return 0
             
-            left = dfs(node.left)
-            right = dfs(node.right)
+            if not node.left and not node.right:
+                return 0
             
-            diameter = max(diameter, left + right)
+            left, right = 0, 0
+            if node.left:
+                left = 1 + dfs(node.left)
             
-            return max(left, right) + 1
+            if node.right:
+                right = 1 + dfs(node.right)
+            
+            localDiam = left + right
+            
+            diameter = max(localDiam, diameter)
+            
+            return max(left, right)
         
         dfs(root)
         return diameter
