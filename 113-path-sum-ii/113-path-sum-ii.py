@@ -13,23 +13,19 @@ class Solution(object):
         """
         
         result = []
-        
-        def dfs(root, pathNodes, pathSum):
+        def dfs(node, path, total):
             
-            if not root:
+            if not node:
                 return
             
-            pathSum += root.val
-            pathNodes = pathNodes + [root.val]
+            if not node.left and not node.right:
+                if (total + node.val) == targetSum:
+                    result.append(path + [node.val])
+                return
             
-            if not root.left and not root.right and pathSum == targetSum:
-                result.append(pathNodes)
-            
-            if root.left:
-                dfs(root.left, pathNodes, pathSum)
-            
-            if root.right:
-                dfs(root.right, pathNodes, pathSum)
+            dfs(node.left, path + [node.val], total + node.val)
+            dfs(node.right, path + [node.val], total + node.val)
         
         dfs(root, [], 0)
         return result
+            
