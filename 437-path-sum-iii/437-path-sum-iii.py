@@ -7,26 +7,27 @@
 class Solution:
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         
-        self.count = 0
+        count = 0
         
-        def dfs(root, pathNodes):
+        def dfs(node, path):
             
-            if not root:
+            nonlocal count
+            
+            if not node:
                 return
             
-            pathNodes = pathNodes + [root.val]
+            path.append(node.val)
+            localSum = 0
+            for i in range(len(path) - 1, -1,- 1):
+                localSum += path[i]
+                if localSum == targetSum:
+                    count += 1
+                    
+            dfs(node.left, path)
+            dfs(node.right, path)
             
-            localsum = 0
-            for i in range(len(pathNodes) - 1, -1, -1):
-                localsum += pathNodes[i]
-                if localsum == targetSum:
-                    self.count += 1
+            path.pop()
             
-            dfs(root.left, pathNodes)
-            dfs(root.right, pathNodes)
-            
-            pathNodes.pop()
-            
-            
+        
         dfs(root, [])
-        return self.count
+        return count
