@@ -7,26 +7,20 @@
 class Solution:
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         
-        if not root:
-            return None
-        
-        result = []
-        
-        queue = collections.deque([])
-        queue.append(root)
-        
-        while queue:
+        result= []
+        def dfs_right(node, level):
             
-            lastNode = None
-            for i in range(len(queue)):
-                node = queue.popleft()
-                if node.left:
-                    queue.append(node.left)
-                if node.right:
-                    queue.append(node.right)
-                
-                lastNode = node
+            if level == len(result): # check that we're on the next level
+                result.append(node.val)
             
-            result.append(lastNode.val)
+            for child in [node.right, node.left]: # keep going right
+                if child:
+                    dfs_right(child, level + 1)
         
+        
+        if not root: 
+            return result
+        dfs_right(root, 0)
         return result
+                    
+        
