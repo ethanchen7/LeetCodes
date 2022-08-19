@@ -6,53 +6,50 @@
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
         
-        dummy = ListNode()
-        tail = dummy 
-        
-        currl1 = l1
-        currl2 = l2
-        
+        curr1 = l1
+        curr2 = l2
         carry = 0
-        while currl1 and currl2:
-
-            curr_sum = currl1.val + currl2.val + carry
-            digit = curr_sum % 10
-            carry = curr_sum // 10
+        prevNode = ListNode()
+        tail = prevNode
+        
+        while curr1 and curr2:
+            
+            total = curr1.val + curr2.val + carry
+            carry = total // 10
+            digit = total % 10
             
             new_node = ListNode(digit)
-            dummy.next = new_node
-            dummy = dummy.next
+            prevNode.next = new_node
+            prevNode = prevNode.next
             
-            currl1 = currl1.next
-            currl2 = currl2.next
+            curr1 = curr1.next
+            curr2 = curr2.next
         
-        while currl1:
+        while curr1:
             
-            curr_sum = currl1.val + carry
-            digit = curr_sum % 10
-            carry = curr_sum // 10
+            total = curr1.val + carry
+            carry = total // 10
+            digit = total % 10
             
             new_node = ListNode(digit)
-            dummy.next = new_node
-            dummy = dummy.next
+            prevNode.next = new_node
+            prevNode = prevNode.next
             
-            currl1 = currl1.next
+            curr1 = curr1.next
         
-        while currl2:
+        while curr2:
             
-            curr_sum = currl2.val + carry
-            digit = curr_sum % 10
-            carry = curr_sum // 10
+            total = curr2.val + carry
+            carry = total // 10
+            digit = total % 10
             
             new_node = ListNode(digit)
-            dummy.next = new_node
-            dummy = dummy.next
+            prevNode.next = new_node
+            prevNode = prevNode.next
             
-            currl2 = currl2.next
-        
+            curr2 = curr2.next
+            
         if carry:
-            new_node = ListNode(carry)
-            dummy.next = new_node
+            prevNode.next = ListNode(carry)
+            
         return tail.next
-            
-            
