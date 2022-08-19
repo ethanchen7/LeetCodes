@@ -10,11 +10,8 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-        if not head:
-            return None
         
-        slow = head
-        fast = head
+        slow, fast = head, head
         
         while fast and fast.next:
             slow = slow.next
@@ -22,12 +19,16 @@ class Solution(object):
             
             if slow == fast:
                 break
-                
-        pointer = head
-        while slow.next:
-            if pointer == slow:
+            
+        if fast is None or fast.next is None:
+            return None
+        
+        curr = head
+        while True:
+            if curr == slow:
                 return slow
-            pointer = pointer.next
+            curr = curr.next
             slow = slow.next
             
-        return None
+            
+        
