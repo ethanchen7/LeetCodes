@@ -5,24 +5,21 @@ class Solution:
         """
         
         low, high = 0, len(nums) - 1
-        i = 0
+        pointer = 0
         
-        while i <= high:
+        while pointer <= high:
             
-            if nums[i] == 0:
-                nums[low], nums[i] = nums[i], nums[low]
+            if nums[pointer] == 0:
+                nums[pointer], nums[low] = nums[low], nums[pointer]
                 low += 1
-                i = low
+                pointer = low
             
-            elif nums[i] == 2:
-                nums[i], nums[high] = nums[high], nums[i]
+            elif nums[pointer] == 1:
+                pointer += 1
+            
+            elif nums[pointer] == 2:
+                nums[pointer], nums[high] = nums[high], nums[pointer]
                 high -= 1
             
-            else:
-                i += 1
-                # if i > high:
-                #     break
-        
-        return nums
             
-                
+            
