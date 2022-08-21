@@ -5,19 +5,20 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        result = 0
-        left = 0
-        product = 1
-        
         if k <= 1:
             return 0
         
-        for right in range(len(nums)):
-            product *= nums[right]
-            while (product >= k and left < len(nums)):
-                product /= nums[left]
-                left += 1
+        count = 0
+        window_start = 0
+        total = 1
+    
+        for window_end in range(len(nums)):
+            total *= nums[window_end]
             
-            result += right - left + 1
-        
-        return result
+            while total >= k:
+                total /= nums[window_start]
+                window_start += 1
+            
+            count += window_end - window_start + 1
+           
+        return count
