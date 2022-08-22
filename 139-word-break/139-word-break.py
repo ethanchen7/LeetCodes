@@ -1,18 +1,22 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         
-        wordset = set(wordDict)
+        wordSet = set(wordDict)
+        memo = {}
         
-        dp = [False] * (len(s) + 1)
-        dp[len(s)] = True
+        def dfs(start):
+            if start == len(s):
+                return True
+            
+            if start in memo:
+                return memo[start]
+            
+            for end in range(start + 1, len(s) + 1):
+                if s[start:end] in wordSet and dfs(end): # check if the substring exists and pass in the end pointer to the dfs
+                    memo[start]=True
+                    return memo[start]
+            
+            memo[start] = False
+            return memo[start]
         
-        for i in range(len(s) - 1, -1, -1):
-            for w in wordset:
-                if (i + len(w)) <= len(s) and s[i : i + len(w)] == w:
-                    dp[i] = dp[i + len(w)]
-                
-                if dp[i]:
-                    break
-        
-        print(dp)
-        return dp[0]
+        return dfs(0)
