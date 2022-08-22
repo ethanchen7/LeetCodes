@@ -1,19 +1,29 @@
 class Solution:
     def numDecodings(self, s: str) -> int:
         
-        dp = [0 for i in range(len(s) + 1)]
-        dp[0] = 1
-        dp[1] = 0 if s[0] == "0" else 1
+        memo = collections.defaultdict(int)
         
-        for i in range(2, len(dp)):
-            if s[i - 1] != '0':
-                dp[i] = dp[i - 1] # single digit
+        def dfs(idx):
+                        
+            if idx in memo:
+                return memo[idx]
             
-            two_digits = s[i-2:i]
-            if int(two_digits) >= 10 and int(two_digits) <= 26:
-                dp[i] += dp[i - 2]
+            if idx == len(s): 
+                return 1
+            
+            if s[idx] == "0": # if it starts as a 0, we can't finish it
+                return 0
+            
+            if idx == len(s) - 1: # len - 1 because we will check substring[i:i+2]
+                return 1
+            
+            count = dfs(idx + 1) # one digit
+            if int(s[idx:idx + 2]) <= 26: # two digit
+                count += dfs(idx + 2)
+            
+            memo[idx] = count
+            return memo[idx]
         
-        return dp[len(s)]
-                
-        
-        
+        return dfs(0)
+            
+            
