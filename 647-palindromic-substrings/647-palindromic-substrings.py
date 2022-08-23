@@ -1,24 +1,19 @@
 class Solution:
     def countSubstrings(self, s: str) -> int:
-        
         n = len(s)
+        dp = [[False] * n for _ in range(n)]
         
-        dp = [[False for _ in range(n)] for _ in range(n)] # startIndex, endIndex
         count = 0
-
-        # every string with one character is a palindrome
+        
         for i in range(n):
             dp[i][i] = True
             count += 1
-        
-        for startIndex in range(n - 1, -1, -1):
-            for endIndex in range(startIndex + 1, n):
-                if s[startIndex] == s[endIndex]:
-                    # if it's a two character string or if the remaining string is a palindrome
-                    if endIndex - startIndex == 1 or dp[startIndex + 1][endIndex - 1]:
-                        dp[startIndex][endIndex] = True
+            
+        for end in range(0, n):
+            for start in range(end -1, -1, -1):
+                if s[start] == s[end]:
+                    
+                    if end-start == 1 or dp[start + 1][end - 1]:
+                        dp[start][end] = True
                         count += 1
-        
         return count
-                        
-        
