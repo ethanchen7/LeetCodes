@@ -5,20 +5,17 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
-        result = []
-        sub = []
-        
-        def dfs(sub, i):
+        def dfs(idx, sub):
             
-            if i >= len(nums):
+            if idx >= len(nums):
                 result.append(sub[:])
                 return
             
-            sub.append(nums[i])
-            dfs(sub, i + 1)
-            
+            sub.append(nums[idx])
+            dfs(idx + 1, sub)
             sub.pop()
-            dfs(sub, i + 1)
+            dfs(idx + 1, sub)
         
-        dfs(sub, 0)
+        result = []
+        dfs(0, [])
         return result
