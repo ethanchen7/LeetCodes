@@ -2,20 +2,27 @@ class Solution:
     def combinationSum3(self, k: int, n: int) -> List[List[int]]:
         
         result = []
-        def dfs(curr, total, numbers):
+        
+        def dfs(idx, nums, total):
             
-            if total == n and len(numbers) == k:
-                result.append(numbers[:])
+            if len(nums) == k:
+                if total == n:
+                    result.append(nums[:])
+                    return
+            
+            if len(nums) > k:
                 return
             
-            elif total > n or len(numbers) >= k:
+            if total > n:
                 return
             
-            for i in range(curr, 9):
-                
-                numbers.append(i+1) # starts at 0
-                dfs(i + 1, total + i + 1, numbers)
-                numbers.pop()
- 
-        dfs(0, 0, [])
+            for i in range(idx + 1, 10):
+                total += i
+                nums.append(i)
+                dfs(i, nums, total)
+                total -= i
+                nums.pop()
+        
+        dfs(0, [], 0)
+
         return result
