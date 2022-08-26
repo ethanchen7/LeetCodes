@@ -1,37 +1,34 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
         
-        graph = {i: set() for i in range(n)}
+        parents = [i for i in range(n)]
+        ranks = [1 for i in range(n)]
+        
+        def find(x):
+            if parents[x] != x:
+                parents[x] = find(parents[x])
+            return parents[x]
+    
+        def union(x, y):
+            root_x = find(x)
+            root_y = find(y)
+            
+            if root_x == root_y:
+                return
+            
+            if ranks[root_x] >= ranks[root_y]:
+                parents[root_y] = root_x
+                ranks[root_x] += ranks[root_y]
+            
+            else:
+                parents[root_x] = root_y
+                ranks[root_y] += ranks[root_x]
         
         for x, y in edges:
-            graph[x].add(y)
-            graph[y].add(x)
+            union(x, y)
+
+        # refind all the parents
+        for i in range(len(parents)):
+            find(i)
         
-        visited = set()
-        def dfs(stack):
-            
-            while stack:
-                
-                node = stack.pop()
-                visited.add(node)
-                
-                for neighbor in graph[node]:
-                    
-                    if neighbor in visited:
-                        continue
-                    
-                    stack.append(neighbor)
-                    graph[neighbor].remove(node) 
-                    # remove the edge going back to the parent so we don't visit it again
-        
-        components = 0
-        for i in range(n):
-            
-            if i not in visited:
-                dfs([i])
-                components += 1
-        
-        return components
-                    
-            
-            
+        return len(set(parents))
