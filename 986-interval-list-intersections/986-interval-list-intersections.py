@@ -1,24 +1,34 @@
 class Solution:
     def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
         
-        a, b = 0, 0
-        result = []
+        intersections = []
         
-        while a < len(firstList) and b < len(secondList):
+        idx1 = 0
+        idx2 = 0
+        
+        while idx1 < len(firstList) and idx2 < len(secondList):
             
-            a_overlaps_b = firstList[a][1] >= secondList[b][0] and firstList[a][0] <= secondList[b][0]
+            a = firstList[idx1]
+            b = secondList[idx2]
+  
             
-            b_overlaps_a = firstList[a][0] >= secondList[b][0] and firstList[a][0] <= secondList[b][1]
+            a_overlap_b = a[0] <= b[0] and a[1] >= b[0]
+            b_overlap_a = a[0] >= b[0] and a[0] <= b[1]
             
-            if a_overlaps_b or b_overlaps_a:
-                newInterval = [max(firstList[a][0], secondList[b][0]), 
-                               min(firstList[a][1], secondList[b][1])]
-                result.append(newInterval)
+            if a_overlap_b:
+                x = max(a[0],b[0])
+                y = min(a[1],b[1])
+                intersections.append([x,y])
             
-            if firstList[a][1] < secondList[b][1]:
-                a += 1
+            elif b_overlap_a:
+                x = max(a[0],b[0])
+                y = min(a[1],b[1])
+                intersections.append([x,y])
+            
+            if a[1] < b[1]:
+                idx1 += 1
             
             else:
-                b += 1
-                
-        return result
+                idx2 += 1
+        
+        return intersections
