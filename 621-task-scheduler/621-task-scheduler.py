@@ -1,10 +1,9 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
         
-        counter = Counter(tasks)
-        heap = []
-        for key in counter:
-            heappush(heap, -counter[key])
+        c = Counter(tasks)
+        heap = [[-c[char], char] for char in c]
+        heapify(heap)
         
         queue = deque()
         
@@ -12,16 +11,14 @@ class Solution:
         while heap or queue:
             
             if heap:
-                count = heappop(heap)
-                if count < -1:
-                    queue.append((count + 1, time + n)) # available at current time + idle time
+                freq, char = heappop(heap)
+                if freq < -1:
+                    queue.append([freq + 1, char, time + n])
             
-            if queue and queue[0][1] == time:
-                cnt, tm = queue.popleft()
-                heappush(heap, cnt)
+            if queue and queue[0][2] == time:
+                f, c, t = queue.popleft()
+                heappush(heap, [f, c])
             
             time += 1
-        
-        return time
             
-                
+        return time
