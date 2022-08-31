@@ -6,33 +6,30 @@
 class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
         
-        current, prev = head, None
+        left_node, beg_list = head, ListNode(next=head)
+        right_node, end_list = head, None
         
-        i = 0
-        while i < (left - 1):
-            prev = current
-            current = current.next
-            i += 1
-        
-        last_node_first_half = prev
-        last_node_sub_list = current
-        
-        i = 0
-        while i < (right - left + 1):
-            temp = current.next
-            current.next = prev
-            prev = current
-            current = temp
-            i += 1
-        
-        if last_node_first_half is not None:
-            last_node_first_half.next = prev
-        else:
-            head = prev
-        
-        
-        last_node_sub_list.next = current
-        return head
-        
-        
+        while left > 1 and left_node:
+            left_node = left_node.next
+            beg_list = beg_list.next
+            left -= 1
             
+        while right > 1 and right_node:
+            right_node = right_node.next
+            right -= 1
+        
+        end_list = right_node.next
+        
+        prev = None
+        left_n_pointer = left_node
+        while left_n_pointer != end_list:
+            temp = left_n_pointer.next
+            left_n_pointer.next = prev
+            prev = left_n_pointer
+            left_n_pointer = temp
+        
+        beg_list.next = right_node
+        left_node.next = end_list
+        
+        return head if head != left_node else beg_list.next
+        
