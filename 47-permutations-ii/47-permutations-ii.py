@@ -1,23 +1,25 @@
 class Solution:
     def permuteUnique(self, nums: List[int]) -> List[List[int]]:
         
-        nums.sort()
         result = []
-        used = set() # store the INDICES of the ones we've used
+        counter = Counter(nums)
         
-        def dfs(perm):
+        def permute(perm):
+            
             if len(perm) == len(nums):
                 result.append(perm[:])
-                return 
+                return
             
-            for i in range(0, len(nums)):
+            for num in counter:
+                if counter[num] > 0:
+                    
+                    perm.append(num)
+                    counter[num] -= 1
+            
+                    permute(perm)
                 
-                if (i in used) or (i > 0 and nums[i] == nums[i - 1] and not (i-1) in used):
-                    continue
-
-                used.add(i)
-                dfs(perm + [nums[i]])
-                used.remove(i)
+                    perm.pop()
+                    counter[num] += 1
             
-        dfs([])
+        permute([])
         return result
