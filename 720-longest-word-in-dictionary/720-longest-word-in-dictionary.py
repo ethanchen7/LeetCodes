@@ -1,7 +1,6 @@
 class Solution:
     def longestWord(self, words: List[str]) -> str:
         
-        words.sort(key=lambda x: (x, -len(x)), reverse=True)
         words_set = set(words)
       
         trie = {}
@@ -16,7 +15,6 @@ class Solution:
         queue = deque([trie]) # bfs the trie
         res = ""
         while queue:
-            
             node = queue.popleft()
             for c in node.values():
                 if '$' in c:
