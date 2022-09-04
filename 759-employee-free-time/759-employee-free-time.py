@@ -9,24 +9,21 @@ class Interval:
 class Solution:
     def employeeFreeTime(self, schedule: '[[Interval]]') -> '[Interval]':
         
-        # flatten the intervals into one sorted list
-        # just find the gaps between the intervals
-        
         schedules = []
-        for s in schedule:
-            for i in s:
+        for interval in schedule:
+            for i in interval:
                 schedules.append(i)
                 
         schedules.sort(key=lambda x : x.start)
-        # [1,2], [1,3], [4,10], [5,6]
-        res = []
+        #[1,2], [1,3], [4,10],[5,6]
+        result = []
         
-        end = schedules[0].end
-        for interval in schedules[1:]:
+        end_time = schedules[0].end
+        for i in range(1, len(schedules)):
+            curr_start, curr_end = schedules[i].start, schedules[i].end
+            if curr_start > end_time:
+                result.append(Interval(end_time, curr_start))
             
-            if interval.start > end:
-                res.append(Interval(end, interval.start))
-            
-            end = max(end, interval.end)
+            end_time = max(curr_end, end_time)
         
-        return res
+        return result
