@@ -3,26 +3,17 @@ class Solution:
         
         result = []
         
-        def dfs(idx, nums, total):
+        def dfs(i, numbers, total):
             
-            if len(nums) == k:
-                if total == n:
-                    result.append(nums[:])
-                    return
-            
-            if len(nums) > k:
+            if total == n and len(numbers) == k:
+                result.append(numbers[:])
                 return
             
-            if total > n:
+            if len(numbers) > k or total > n:
                 return
             
-            for i in range(idx + 1, 10):
-                total += i
-                nums.append(i)
-                dfs(i, nums, total)
-                total -= i
-                nums.pop()
+            for j in range(i + 1, 10):
+                dfs(j, numbers + [j], total + j)
         
         dfs(0, [], 0)
-
         return result
