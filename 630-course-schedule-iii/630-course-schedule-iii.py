@@ -2,16 +2,19 @@ class Solution:
     def scheduleCourse(self, courses: List[List[int]]) -> int:
         
         courses.sort(key=lambda x:x[1])
+        # [[100, 200], [1000, 1250], [200, 1300], [2000, 3200]]
         
-        maxHeap = []
-        max_time = 0
+        max_time_heap = []
         
-        for time, end_time in courses:
-            heappush(maxHeap, -time)
-            max_time += time
+        time = 0
+        count = 0
+        for cost, deadline in courses:
+            time += cost
+            heappush(max_time_heap, -cost)
+            count += 1
             
-            if max_time > end_time:
-                biggest_time = -heappop(maxHeap)
-                max_time -= biggest_time
+            if time > deadline:
+                time += heappop(max_time_heap)
+                count -= 1
         
-        return len(maxHeap)
+        return count
