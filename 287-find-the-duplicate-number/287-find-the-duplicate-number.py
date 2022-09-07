@@ -7,14 +7,18 @@ class Solution:
             
             slow = nums[slow]
             fast = nums[nums[fast]]
+            
             if slow == fast:
-                break
-                
-            
-        slow2 = 0
+                break      
+        
+        curr = 0
+        
         while True:
-            slow = nums[slow]
-            slow2 = nums[slow2]
             
-            if slow == slow2:
-                return slow
+            curr = nums[curr]
+            slow = nums[slow]
+            
+            if slow == curr:
+                break
+    
+        return slow
