@@ -4,26 +4,32 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        
         s = sum(nums)
         if s % 2 != 0:
             return False
         
-        target_sum = s // 2
+        target = s // 2
         
-        dp = [[False] * (target_sum + 1) for _ in range(len(nums))]
+        nums.sort()
         
-        for t in range(0, target_sum + 1):
-            dp[0][t] = nums[0] == t
-        
-        for i in range(len(nums)):
-            dp[i][0] = True
+        memo = {}
+        def dfs(idx, total):
             
-        for t in range(1, target_sum + 1):
-            for i in range(1, len(nums)):
-                if t >= nums[i]:
-                    dp[i][t] = dp[i - 1][t - nums[i]] or dp[i - 1][t]
-                else:
-                    dp[i][t] = dp[i - 1][t]
-
-        return dp[len(nums) - 1][target_sum]
+            key = (idx, total)
+            
+            if key in memo:
+                return memo[key]
+            
+            if total == 0:
+                return True
+            
+            if idx >= len(nums) or total < 0:
+                return False
+            
+            take = dfs(idx + 1, total - nums[idx])
+            dont_take = dfs(idx + 1, total)
+            
+            memo[key] = take or dont_take
+            return memo[key]
+        
+        return dfs(0, target)
