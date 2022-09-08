@@ -12,7 +12,7 @@ class Solution(object):
         
         nums.sort()
         
-        memo = {}
+        memo = collections.defaultdict(bool)
         def dfs(idx, total):
             
             key = (idx, total)
