@@ -5,26 +5,25 @@ class Solution(object):
         :rtype: bool
         """
         
-        if (sum(nums) % 2 != 0):
+        s = sum(nums)
+        if s % 2 != 0:
             return False
         
-        target = sum(nums) // 2
+        target_sum = s // 2
         
-        dp = [[False for i in range(target + 1)] for j in range(len(nums))]
+        dp = [[False] * (target_sum + 1) for _ in range(len(nums))]
         
-        for i in range(target + 1):
-            if nums[0] == i:
-                dp[0][i] = True
+        for t in range(0, target_sum + 1):
+            dp[0][t] = nums[0] == t
         
-        for j in range(len(nums)):
-            dp[j][0] = True
-        
-        for i in range(1, len(nums)):
-            for t in range(1, target + 1):
-                if dp[i - 1][t]:
+        for i in range(len(nums)):
+            dp[i][0] = True
+            
+        for t in range(1, target_sum + 1):
+            for i in range(1, len(nums)):
+                if t >= nums[i]:
+                    dp[i][t] = dp[i - 1][t - nums[i]] or dp[i - 1][t]
+                else:
                     dp[i][t] = dp[i - 1][t]
-                
-                elif t >= nums[i]:
-                    dp[i][t] = dp[i - 1][t] or dp[i - 1][t - nums[i]]
-        
-        return dp[-1][target]
+
+        return dp[len(nums) - 1][target_sum]
