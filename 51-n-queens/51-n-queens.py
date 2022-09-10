@@ -1,19 +1,12 @@
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
-        
-        columns = set()
-        diagonals = set()
-        anti_diagonals = set()
+   
+        col_set = set()
+        diag_set = set()
+        anti_diag_set = set()
         
         result = []
-        
-        def create_board(state):
-            
-            board = []
-            for row in state:
-                board.append("".join(row))
-            return board
-        
+
         def backtrack(row, state):
             
             if row == n:
@@ -21,24 +14,31 @@ class Solution:
                 return
             
             for col in range(n):
-                current_diagonal = row - col
-                current_anti_diagonal = row + col
                 
-                if (col in columns or current_diagonal in diagonals or current_anti_diagonal in anti_diagonals):
+                diag = row - col
+                antidiag = row + col
+                
+                if col in col_set or diag in diag_set or antidiag in anti_diag_set:
                     continue
                 
-                columns.add(col)
-                diagonals.add(current_diagonal)
-                anti_diagonals.add(current_anti_diagonal)
+                col_set.add(col)
+                diag_set.add(diag)
+                anti_diag_set.add(antidiag)
                 state[row][col] = 'Q'
                 
                 backtrack(row + 1, state)
                 
-                columns.remove(col)
-                diagonals.remove(current_diagonal)
-                anti_diagonals.remove(current_anti_diagonal)
+                col_set.remove(col)
+                diag_set.remove(diag)
+                anti_diag_set.remove(antidiag)
                 state[row][col] = '.'
-            
+        
+        def create_board(state):
+            board = []
+            for row in state:
+                board.append("".join(row))
+            return board
+        
         state = [['.'] * n for _ in range(n)]
         backtrack(0, state)
         return result
