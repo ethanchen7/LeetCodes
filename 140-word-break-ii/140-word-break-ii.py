@@ -1,25 +1,29 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         
-        word_set = set(wordDict)
-        result = []
+        memo = {}
         
-        # memo = {}
-        def dfs(start, words):
+        def dfs(string):
             
+            if string in memo:
+                return memo[string]
             
-            if start == len(s):
-                result.append(" ".join(words))
-                return
+            if not string:
+                return [""]
             
-            for end in range(start + 1, len(s) + 1):
-                if s[start:end] in word_set:
+            local_result = []
+            
+            for word in wordDict:
+                if string.startswith(word):
+                    sub_words = dfs(string[len(word):])
                     
-                    words.append(s[start:end])
-                    
-                    dfs(end, words)
-                        
-                    words.pop()
+                    for w in sub_words:
+                        if w:
+                            local_result.append(word + ' ' + w)
+                        else:
+                            local_result.append(word)
             
-        dfs(0, [])
-        return result
+            memo[string] = local_result
+            return memo[string]
+    
+        return dfs(s)
