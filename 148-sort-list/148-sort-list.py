@@ -6,47 +6,43 @@
 class Solution:
     def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         
-        def split(head):
-            
-            if not head or not head.next:
-                return head
-            
-            slow, fast = head, head.next
-            
-            while fast and fast.next:
-                slow = slow.next
-                fast = fast.next.next
-            
-            right = slow.next
-            slow.next = None
-            
-            left = split(head)
-            right = split(right)
-            return merge(left, right)
+        if not head or not head.next:
+            return head
         
-        def merge(left, right):
-            
-            dummy = ListNode()
-            tail = dummy
-            
-            while left and right:
-                
-                if left.val < right.val:
-                    dummy.next = left
-                    left = left.next
-                
-                else:
-                    dummy.next = right
-                    right = right.next
-                    
-                dummy = dummy.next
-                
-            if left:
+        slow, fast = head, head.next
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+        
+        right = slow.next
+        slow.next = None
+        
+        left = self.sortList(head)
+        right = self.sortList(right)
+        
+        return self.mergeNodes(left, right)
+        
+    def mergeNodes(self, left, right):
+        
+        dummy = ListNode()
+        tail = dummy
+        
+        while left and right:
+        
+            if left.val < right.val:
                 dummy.next = left
-            
-            if right:
+                left = left.next
+
+            else:
                 dummy.next = right
+                right = right.next
             
-            return tail.next
+            dummy = dummy.next
         
-        return split(head)
+        if left:
+            dummy.next = left
+        
+        if right:
+            dummy.next = right
+        
+        return tail.next
