@@ -3,17 +3,27 @@ class Solution:
         
         result = []
         
-        def dfs(i, numbers, total):
+        def dfs(total, combo, i):
+
+            if len(combo) == k:
+                if total == n:
+                    result.append(combo[:])
+                    return
             
-            if total == n and len(numbers) == k:
-                result.append(numbers[:])
-                return
-            
-            if len(numbers) > k or total > n:
+            if len(combo) > k or total > n:
                 return
             
             for j in range(i + 1, 10):
-                dfs(j, numbers + [j], total + j)
+                
+                combo.append(j)
+                total += j
+                
+                dfs(total, combo, j)
+                
+                combo.pop()
+                total -= j
         
         dfs(0, [], 0)
         return result
+            
+            
