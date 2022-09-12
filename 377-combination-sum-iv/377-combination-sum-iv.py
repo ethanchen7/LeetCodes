@@ -5,14 +5,14 @@ class Solution:
         
         def backtrack(remain):
             
+            if remain in memo:
+                return memo[remain]
+            
             if remain == 0:
                 return 1
             
             if remain < 0:
                 return 0
-            
-            if remain in memo:
-                return memo[remain]
             
             memo[remain] = 0
             for j in range(0, len(nums)):
