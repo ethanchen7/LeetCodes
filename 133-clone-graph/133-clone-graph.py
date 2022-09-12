@@ -22,8 +22,8 @@ class Solution:
             copy = Node(node.val)
             clones[node] = copy
             
-            for n in node.neighbors:
-                copy.neighbors.append(dfs(n))
+            for nei in node.neighbors:
+                copy.neighbors.append(dfs(nei))
             
             return copy
         
