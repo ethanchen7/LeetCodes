@@ -2,10 +2,8 @@ class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
         
         memo = {}
-        def dfs(remain):
-            
-            if remain in memo:
-                return memo[remain]
+        
+        def backtrack(remain):
             
             if remain == 0:
                 return 1
@@ -13,18 +11,15 @@ class Solution:
             if remain < 0:
                 return 0
             
-            count = 0
-            for i in range(0, len(nums)):
-                
-                if nums[i] <= remain:
-                    count += dfs(remain - nums[i])
+            if remain in memo:
+                return memo[remain]
             
-            memo[remain] = count
+            memo[remain] = 0
+            for j in range(0, len(nums)):
+                memo[remain] += backtrack(remain - nums[j])
+            
             return memo[remain]
         
-        return dfs(target)
-
-                
-                
+        return backtrack(target)
                 
             
