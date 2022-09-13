@@ -21,7 +21,7 @@ class Solution:
             currNode = t[letter]
             if 'WORD_KEY' in currNode:
                 result.add(currNode['WORD_KEY'])
-                currNode.pop('WORD_KEY')
+                del currNode['WORD_KEY']
             
             visited.add((r,c))
             
@@ -33,8 +33,8 @@ class Solution:
                 dfs(newR, newC, currNode)
             
             visited.remove((r,c))
-            if not currNode:
-                t.pop(letter)
+            if not currNode: # currNode = {} which means we popped out 'WORD_KEY'
+                del t[letter] # take out that entire branch
         
         
         for r in range(rows):
