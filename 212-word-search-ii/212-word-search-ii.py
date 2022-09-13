@@ -3,7 +3,7 @@ class Solution:
         
         rows = len(board)
         cols = len(board[0])
-        result = set()
+        result = []
         
         trie = {}
         for word in words:
@@ -15,31 +15,34 @@ class Solution:
             root['WORD_KEY'] = word
         
         visited = set()
-        def dfs(r,c,t):
-            
-            letter = board[r][c]
-            currNode = t[letter]
-            if 'WORD_KEY' in currNode:
-                result.add(currNode['WORD_KEY'])
-                del currNode['WORD_KEY']
+        
+        def dfs(r,c,trie):
             
             visited.add((r,c))
             
-            for i, j in [(-1,0),(1,0),(0,1),(0,-1)]:
-                newR, newC = r + i, c + j
-                if newR < 0 or newC < 0 or newR >= rows or newC >= cols or (newR,newC) in visited or \
+            letter = board[r][c]
+            currNode = trie[letter]
+            if 'WORD_KEY' in currNode:
+                result.append(currNode['WORD_KEY'])
+                del currNode['WORD_KEY']
+            
+            
+            for x, y in [(-1,0),(1,0),(0,1),(0,-1)]:
+                newR, newC = r + x, c + y
+                if newR < 0 or newR >= rows or newC < 0 or newC >= cols or (newR, newC) in visited or \
                 board[newR][newC] not in currNode:
                     continue
+                
                 dfs(newR, newC, currNode)
             
             visited.remove((r,c))
-            if not currNode: # currNode = {} which means we popped out 'WORD_KEY'
-                del t[letter] # take out that entire branch
-        
+            if not currNode:
+                del trie[letter]
+            
         
         for r in range(rows):
             for c in range(cols):
-                if board[r][c] in trie: 
-                    dfs(r, c, trie)
+                if board[r][c] in trie:
+                    dfs(r,c,trie)
         
-        return list(result)
+        return result
