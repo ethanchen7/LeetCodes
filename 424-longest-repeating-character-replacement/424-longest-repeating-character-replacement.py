@@ -1,25 +1,25 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
         
-        max_repeating_char = 0
+        char_frequency = {}
         start = 0
-        char_freq = {}
-        max_length = 0
+        max_repeating_chars = 0
+        result = 0
         
         for end in range(len(s)):
             right = s[end]
-            if right not in char_freq:
-                char_freq[right] = 0
-            char_freq[right] += 1
+            if right not in char_frequency:
+                char_frequency[right] = 0
+            char_frequency[right] += 1
             
-            max_repeating_char = max(max_repeating_char, char_freq[right])
+            max_repeating_chars = max(max_repeating_chars, char_frequency[right])
             
-            while (end - start + 1) - max_repeating_char > k:
+            while (end - start + 1 - max_repeating_chars) > k:
                 left = s[start]
-                char_freq[left] -= 1
-                max_repeating_char = max(max_repeating_char, char_freq[left])
+                char_frequency[left] -= 1
+                max_repeating_chars = max(max_repeating_chars, char_frequency[left])
                 start += 1
             
-            max_length = max(end - start + 1, max_length)
-        
-        return max_length
+            result = max(result, end - start + 1)
+            
+        return result
