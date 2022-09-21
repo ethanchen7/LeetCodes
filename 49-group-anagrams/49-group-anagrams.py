@@ -1,15 +1,10 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         
-        string_map = collections.defaultdict(list)
+        anagrams = collections.defaultdict(list)
         
-        for string in strs:
-            string_list = sorted(list(string))
-            sorted_string = "".join(string_list)
-            string_map[sorted_string].append(string)
+        for s in strs:
+            string = "".join(sorted(list(s)))
+            anagrams[string].append(s)
         
-        result = []
-        for key in string_map:
-            result.append(string_map[key])
-        
-        return result
+        return [anagrams[word] for word in anagrams]
