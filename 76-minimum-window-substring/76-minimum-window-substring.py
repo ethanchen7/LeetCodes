@@ -1,40 +1,31 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         
-        matched = 0 # must be len(t_frequency)
+        char_frequency = Counter(t)
         start = 0
-        min_window_len = len(s)
-        min_substr = ""
+        min_window = math.inf
+        result = ""
+        matched = 0
         
-        
-        t_frequency = {}
-        for char in t:
-            if char not in t_frequency:
-                t_frequency[char] = 0
-            t_frequency[char] += 1
-            
         for end in range(len(s)):
             right = s[end]
-            if right in t_frequency:
-                t_frequency[right] -= 1
-                if t_frequency[right] == 0:
+            if right in char_frequency:
+                char_frequency[right] -= 1
+                if char_frequency[right] == 0:
                     matched += 1
             
-            while matched == len(t_frequency):
-                # save the window_size
-                window_size = end - start + 1
-                if window_size <= min_window_len:
-                    min_window_len = window_size
-                    min_substr = s[start:end + 1]
-
-                # shrink the window
-                left = s[start]
-                if left in t_frequency:
-                    if t_frequency[left] == 0:
-                        matched -= 1
-                    t_frequency[left] += 1
-                    
+            while matched == len(char_frequency):
+                window = end - start + 1
+                if window <= min_window:
+                    min_window = min(min_window, window)
+                    result = s[start:end + 1]
                 
+                
+                left = s[start]
+                if left in char_frequency:
+                    if char_frequency[left] == 0:
+                        matched -= 1
+                    char_frequency[left] += 1
                 start += 1
         
-        return min_substr
+        return result
