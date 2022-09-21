@@ -1,25 +1,25 @@
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        start = 0
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        
         char_frequency = {}
-        max_len = 0
+        start = 0
+        max_window = 0
         
         for end in range(len(s)):
             right = s[end]
+            
             if right not in char_frequency:
                 char_frequency[right] = 0
             char_frequency[right] += 1
-            
+        
             while char_frequency[right] > 1:
                 left = s[start]
                 char_frequency[left] -= 1
+                if char_frequency[left] == 0:
+                    del char_frequency[left]
                 start += 1
-            
-            curr_len = end - start + 1
-            max_len = max(max_len, curr_len)
+                
+            max_window = max(max_window, end - start + 1)
         
-        return max_len
+        return max_window
+            
