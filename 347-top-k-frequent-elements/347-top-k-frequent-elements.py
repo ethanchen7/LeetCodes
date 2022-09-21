@@ -1,18 +1,22 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        num_map = Counter(nums)
         
-        maxHeap = []
+        # get the frequencies of each number
+        # store the frequencies as arrays of arrays and their frequencies are the index
+        # index the frequencies from the end for k amount
         
-        for key in num_map:
-            maxHeap.append((-num_map[key], key)) # O(N)
+        count = {}
+        freq = [[] for i in range(len(nums) + 1)]
         
-        heapify(maxHeap) # O(N)
+        for n in nums:
+            count[n] = 1 + count.get(n, 0)
         
-        res = []
-        for i in range(k): # O(K log K)
-            freq, num = heappop(maxHeap)
-            res.append(num)
+        for num, c in count.items():
+            freq[c].append(num)
         
-        return res
-    # overall: O(N * K log K) ==== O(N * log K)
+        result = []
+        for i in range(len(freq) - 1, 0, -1):
+            for n in freq[i]:
+                result.append(n)
+                if len(result) == k:
+                    return result
