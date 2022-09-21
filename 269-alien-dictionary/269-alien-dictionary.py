@@ -6,36 +6,38 @@ class Solution:
         
         for word in words:
             for char in word:
-                graph[char] = []
-                inDegrees[char] = 0
+                if char not in graph:
+                    graph[char] = []
+                    inDegrees[char] = 0
         
-        for i in range(0, len(words) - 1):
-            w1, w2 = words[i], words[i + 1]
-            for j in range(0, min(len(w1), len(w2))):
-                char1, char2 = w1[j], w2[j]
+        for i in range(len(words) - 1):
+            word1, word2 = words[i], words[i + 1]
+            for j in range(min(len(word1), len(word2))):
+                char1, char2 = word1[j], word2[j]
                 if char1 != char2:
                     graph[char1].append(char2)
                     inDegrees[char2] += 1
                     break
-            else: # why do we write the else here??
-                if len(w2) < len(w1): # check that second word isn't a prefix of first word
+            
+            else:
+                if len(word2) < len(word1):
                     return ""
-
-        sources = collections.deque()
+        
+        sources = deque()
         for key in inDegrees:
             if inDegrees[key] == 0:
                 sources.append(key)
         
-        sortedOrder = []
+        sorted_order = []
         while sources:
-            source = sources.popleft()
-            sortedOrder.append(source)
-            for child in graph[source]:
-                inDegrees[child] -= 1
-                if inDegrees[child] == 0:
-                    sources.append(child)
+            char = sources.popleft()
+            sorted_order.append(char)
+            for c in graph[char]:
+                inDegrees[c] -= 1
+                if inDegrees[c] == 0:
+                    sources.append(c)
         
-        if len(sortedOrder) < len(inDegrees):
+        if len(sorted_order) != len(inDegrees):
             return ""
         
-        return "".join(sortedOrder)
+        return "".join(sorted_order)
