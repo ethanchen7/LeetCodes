@@ -1,17 +1,14 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
         
-        char_frequency = {}
+        char_frequency = Counter(s1)
         matched = 0
         
         start = 0
-        for char in s1:
-            if char not in char_frequency:
-                char_frequency[char] = 0
-            char_frequency[char] += 1
         
         for end in range(len(s2)):
             right = s2[end]
+            
             if right in char_frequency:
                 char_frequency[right] -= 1
                 if char_frequency[right] == 0:
@@ -25,7 +22,8 @@ class Solution:
                     char_frequency[left] += 1
                 start += 1
             
-            if matched == len(char_frequency):
+            if (end - start + 1) == len(s1) and matched == len(char_frequency):
                 return True
         
         return False
+            
