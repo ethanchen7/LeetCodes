@@ -2,24 +2,23 @@ class Solution:
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         
         n = len(matrix)
+        start, end = matrix[0][0], matrix[n-1][n-1]
         
-        minHeap = []
-        
-        for i in range(min(k, len(matrix))):
-            heappush(minHeap, [matrix[i][0], i, 0])
-        
-        numberCount = 0
-        number = None
-        
-        while minHeap:
+        def less_than_k(mid):
+            count = 0
             
-            number, curr_row, curr_col = heappop(minHeap)
-            numberCount += 1
+            for r in range(n):
+                x = bisect_right(matrix[r], mid) # all the numbers less than K
+                count += x
             
-            if numberCount == k:
-                break
-                
-            if curr_col < n - 1:
-                heappush(minHeap, [matrix[curr_row][curr_col + 1], curr_row, curr_col + 1])
+            return count
+        
+        while start < end:
             
-        return number
+            mid = start + (end - start) // 2
+            if less_than_k(mid) < k:
+                start = mid + 1
+            else:
+                end = mid
+            
+        return start
