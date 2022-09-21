@@ -16,11 +16,14 @@ class Solution:
         
         while queue:
             
-            level_arr = []
+            level_arr = deque()
             for _ in range(len(queue)):
                 node = queue.popleft()
                 
-                level_arr.append(node.val)
+                if reverse:
+                    level_arr.appendleft(node.val)
+                else:
+                    level_arr.append(node.val)
                 
                 if node.left:
                     queue.append(node.left)
@@ -28,10 +31,7 @@ class Solution:
                 if node.right:
                     queue.append(node.right)
             
-            if reverse:
-                result.append(level_arr[::-1])
-            else:
-                result.append(level_arr)
+            result.append(list(level_arr))
             
             reverse = not reverse
         
