@@ -8,21 +8,17 @@ class Solution:
         
         stack = []
         max_area = 0
-        for i in range(n):
-            curr_height = heights[i]
+        for i, h in enumerate(heights):
             curr_idx = i
-            while stack and stack[-1][0] > curr_height:
+            while stack and stack[-1][0] > h:
                 prev_height, prev_idx = stack.pop()
                 curr_idx = prev_idx
-                width = i - prev_idx
-                area = width * prev_height
-                max_area = max(area, max_area)
+                max_area = max(prev_height * (i - prev_idx), max_area)
             
-            stack.append([curr_height, curr_idx])
+            stack.append([h, curr_idx])
         
         while stack:
             height, idx = stack.pop()
-            area = ((n-1) - idx + 1) * height
-            max_area = max(max_area, area)
+            max_area = max(max_area, ((n-1) - idx + 1) * height)
         
         return max_area
