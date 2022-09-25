@@ -9,7 +9,6 @@ class Solution(object):
         :type head: ListNode
         :rtype: None Do not return anything, modify head in-place instead.
         """
-        # reverse the second half of the linked list
         
         slow, fast = head, head
         
@@ -26,17 +25,12 @@ class Solution(object):
         
         curr = head
         while curr and prev:
-            
             tempCurr = curr.next
             curr.next = prev
-            
-            if tempCurr == prev:
-                break
-                
             tempPrev = prev.next
             prev.next = tempCurr
             curr = tempCurr
             prev = tempPrev
         
-        
+        if curr: curr.next = None
         return head
