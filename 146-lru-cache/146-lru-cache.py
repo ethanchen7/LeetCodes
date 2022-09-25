@@ -14,44 +14,46 @@ class LRUCache:
         self.head, self.tail = Node(), Node()
         self.head.next = self.tail
         self.tail.prev = self.head
-        
-    def add(self, node):
+    
+    def add(self, node): # move to the head (MRU)
         head_next = self.head.next
+        head_next.prev = node
+        
         self.head.next = node
         
-        node.next = head_next
         node.prev = self.head
-        
-        head_next.prev = node
-
+        node.next = head_next
+    
     def remove(self, node):
         node_next = node.next
         node_prev = node.prev
         
-        node_next.prev = node_prev
         node_prev.next = node_next
+        node_next.prev = node_prev
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            node = self.cache[key]
-            self.remove(node)
-            self.add(node)
-            return node.val
-        return -1
-
+        if not key in self.cache:
+            return -1
+        
+        node = self.cache[key]
+        self.remove(node)
+        self.add(node)
+        return node.val
+        
     def put(self, key: int, value: int) -> None:
+        
         if key in self.cache:
             old_node = self.cache[key]
             self.remove(old_node)
         
         new_node = Node(key, value)
-        self.add(new_node)
         self.cache[key] = new_node
+        self.add(new_node)
         
         if len(self.cache) > self.capacity:
             lru = self.tail.prev
-            self.remove(lru)
             del self.cache[lru.key]
+            self.remove(lru)
 
 
 # Your LRUCache object will be instantiated and called as such:
