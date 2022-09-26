@@ -2,36 +2,35 @@ class WordDictionary:
 
     def __init__(self):
         self.trie = {}
-        
+
     def addWord(self, word: str) -> None:
-        node = self.trie
-        
+        root = self.trie
         for char in word:
-            if char not in node:
-                node[char] = {}
-            node = node[char]
+            if char not in root:
+                root[char] = {}
+            
+            root = root[char]
         
-        node['finished'] = True
+        root['WORD_KEY'] = word
 
     def search(self, word: str) -> bool:
         
-        def dfs(word, node):
-            for i, char in enumerate(word):
-                if char not in node:
+        def dfs(word, root):
+            
+            for i,char in enumerate(word):
+                if char not in root:
                     if char == ".":
-                        for c in node:
-                            if c != 'finished' and dfs(word[i+1:], node[c]): # ignore the "." and advance the node forward /
-                                # and we also decrease the word size
+                        for node in root:
+                            if node != 'WORD_KEY' and dfs(word[i + 1:], root[node]):
                                 return True
+                    
                     return False
                 else:
-                    node = node[char]
+                    root = root[char]
             
-            return 'finished' in node
+            return 'WORD_KEY' in root
         
         return dfs(word, self.trie)
-            
-
 
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
