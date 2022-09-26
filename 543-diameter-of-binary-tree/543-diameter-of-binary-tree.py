@@ -19,9 +19,12 @@ class Solution:
             left = dfs(node.left)
             right = dfs(node.right)
             
-            diameter = max(diameter, left + right)
+            localDiam = left + right
+            
+            diameter = max(diameter, localDiam)
             
             return max(left, right) + 1
         
         dfs(root)
         return diameter
+        
