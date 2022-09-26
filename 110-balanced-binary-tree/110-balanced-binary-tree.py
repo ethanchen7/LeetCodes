@@ -7,16 +7,22 @@
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         
-        def height(root):
+        def height(node):
             
-            if not root: return 0
+            if not node:
+                return 0
             
-            return 1 + max(height(root.left), height(root.right))
+            left, right = height(node.left) + 1, height(node.right) + 1
+            
+            return max(left, right)
         
-        if not root:
-            return True
+        if not root: return True
         
         if abs(height(root.left) - height(root.right)) >= 2:
             return False
         
-        return self.isBalanced(root.left) and self.isBalanced(root.right) # we need to call it again for every subtree
+        return self.isBalanced(root.left) and self.isBalanced(root.right)
+        
+        
+            
+            
