@@ -2,41 +2,45 @@ class Solution:
     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
         
         graph = collections.defaultdict(list)
+        wordList.append(beginWord)
+        visited = set()
         
         for word in wordList:
-            i = 0
-            
-            while i < len(word):
-                chars = list(word)
-                chars[i] = '*'
-                graph["".join(chars)].append(word)
-                i += 1
+            for i in range(len(word)):
+                copy = list(word)
+                copy[i] = '*'
+                graph["".join(copy)].append(word)
         
-        visited = set()
+        time = 0
         queue = deque()
-        queue.append((beginWord, 1))
-        
+        queue.append([beginWord, time])
+    
         while queue:
-            
-            word, length = queue.popleft()
-            
+
+            word, time = queue.popleft()
+
+            if word in visited:
+                continue
+
             if word == endWord:
-                return length
+                return time + 1
             
+            visited.add(word)
+
             for i in range(len(word)):
                 chars = list(word)
-                chars[i] = "*"
-                potential_word = "".join(chars)
-                
-                if potential_word in graph:
-                    for wrd in graph[potential_word]:
+                chars[i] = '*'
+                for wrd in graph["".join(chars)]:
+                    if wrd not in visited:
+                        queue.append([wrd, time + 1])
                         
-                        if wrd in visited:
-                            continue
-                        else:
-                            queue.append((wrd, length + 1))
-                            visited.add(wrd)
-        
+
         return 0
             
-            
+    def options(self, word):
+        options = []
+        for i in range(len(word)):
+            copy = list(word)
+            copy[i] = '*'
+            options.append("".join(copy))
+        return options
