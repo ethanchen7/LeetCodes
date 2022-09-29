@@ -5,7 +5,6 @@ class Solution:
         dp = [[False] * n for _ in range(n)]
         
         count = 0
-        
         for i in range(n):
             dp[i][i] = True
             count += 1
