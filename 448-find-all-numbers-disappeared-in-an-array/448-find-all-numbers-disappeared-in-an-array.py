@@ -4,30 +4,19 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
+        
         i = 0
         while i < len(nums):
             j = nums[i] - 1
-            if nums[i] != nums[j]:
+            if nums[j] != nums[i]:
                 nums[i], nums[j] = nums[j], nums[i]
+            
             else:
                 i += 1
         
-        missing_numbers = []
+        result = []
+        for n in range(len(nums)):
+            if nums[n] != n + 1:
+                result.append(n + 1)
         
-        for i in range(len(nums)):
-            if nums[i] != i + 1:
-                missing_numbers.append(i + 1)
-        
-        return missing_numbers
-        
-#         for n in nums:
-#             idx = abs(n) - 1
-#             nums[idx] = -1 * abs(nums[idx])
-        
-        
-#         res = []
-#         for i, n in enumerate(nums):
-#             if n > 0:
-#                 res.append(i + 1)
-        
-#         return res
+        return result
