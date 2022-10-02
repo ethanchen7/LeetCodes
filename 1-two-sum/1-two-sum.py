@@ -3,10 +3,10 @@ class Solution:
         
         nums_dict = {}
         
-        for i, n in enumerate(nums):
-            difference = (target - n)
-            if n in nums_dict:
-                return [nums_dict[n], i]
+        for i,n in enumerate(nums):
             
-            nums_dict[difference] = i
+            diff = target - n
+            if diff in nums_dict:
+                return [nums_dict[diff], i]
             
+            nums_dict[n] = i
