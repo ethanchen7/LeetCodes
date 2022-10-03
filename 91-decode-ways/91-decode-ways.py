@@ -2,7 +2,6 @@ class Solution:
     def numDecodings(self, s: str) -> int:
         
         memo = {}
-        
         def dfs(idx):
             
             if idx in memo:
@@ -17,13 +16,13 @@ class Solution:
             if s[idx] == '0':
                 return 0
             
-            one_group = dfs(idx + 1)
+            one_way = dfs(idx + 1)
             
-            two_group = 0
-            if 10 <= int(s[idx: idx + 2]) <= 26:
-                two_group += dfs(idx + 2)
+            two_way = 0
+            if 10 <= int(s[idx:idx+2]) <= 26:
+                two_way = dfs(idx + 2)
             
-            memo[idx]=one_group + two_group
+            memo[idx]=one_way + two_way
             return memo[idx]
         
         return dfs(0)
