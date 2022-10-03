@@ -3,22 +3,29 @@
  * @return {number[][]}
  */
 var allPathsSourceTarget = function(graph) {
+    
     const target = graph.length - 1
     const res = []
     
-    const dfs = (node, path) => {
+    const queue = []
+    queue.push([0])
+    
+    while (queue.length) {
         
-        path.push(node)
-        if (node === target) {
+        const path = queue.shift()
+        
+        const lastNode = path.at(-1)
+        
+        if (lastNode === target) {
             res.push(path)
-            return
+            continue
         }
         
-        for (let edge of graph[node]) {
-            dfs(edge, [...path])
+        for (let edge of graph[lastNode]) {
+            queue.push([...path, edge])
+            
         }
     }
-    
-    dfs(0, [])
     return res
+    
 };
